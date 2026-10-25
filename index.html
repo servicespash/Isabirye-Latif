@@ -40,12 +40,46 @@
           console.warn("Window fetch override guard active:", e);
         }
       })();
+
+      // Immediately purge any stale ServiceWorkers or CacheStorage in development/preview
+      if ('serviceWorker' in navigator && (location.hostname.includes('ais-dev') || location.hostname === 'localhost')) {
+        navigator.serviceWorker.getRegistrations().then(function(regs) {
+          for (var i = 0; i < regs.length; i++) {
+            regs[i].unregister();
+          }
+        });
+        if ('caches' in window) {
+          caches.keys().then(function(keys) {
+            for (var j = 0; j < keys.length; j++) {
+              caches.delete(keys[j]);
+            }
+          });
+        }
+      }
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6513032451507520" crossorigin="anonymous"></script>
     <meta name="google-site-verification" content="YOUR_GSC_VERIFICATION_CODE_HERE" />
     <meta name="description" content="Cymatic Study is an institutional sovereign infrastructure, educational platform, and showcase of creative portfolios detailing cymatic research, research papers, and responsive design systems." />
     <meta name="keywords" content="Cymatic Study, Cymatic Hub, Sovereign Infrastructure, Cymatic Research, Creative Portfolio, Responsive Templates, Scientific Art, Frequency Studies" />
     <title>Cymatic Study | Institutional Sovereign Infrastructure</title>
+
+    <!-- OpenGraph Social Share Meta Tags -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://cymatichub.xyz/" />
+    <meta property="og:title" content="Cymatic Study | Institutional Sovereign Infrastructure" />
+    <meta property="og:description" content="Cymatic Study is an institutional sovereign infrastructure, educational platform, and showcase of creative portfolios detailing cymatic research, research papers, and responsive design systems." />
+    <meta property="og:image" content="https://cymatichub.xyz/media/hero.png" />
+    <meta property="og:site_name" content="Cymatic Study" />
+
+    <!-- Twitter / X Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://cymatichub.xyz/" />
+    <meta name="twitter:title" content="Cymatic Study | Institutional Sovereign Infrastructure" />
+    <meta name="twitter:description" content="Cymatic Study is an institutional sovereign infrastructure, educational platform, and showcase of creative portfolios detailing cymatic research, research papers, and responsive design systems." />
+    <meta name="twitter:image" content="https://cymatichub.xyz/media/hero.png" />
+
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -55,7 +89,7 @@
           "@id": "https://cymatichub.xyz/#organization",
           "name": "Cymatic Study",
           "url": "https://cymatichub.xyz",
-          "logo": "https://cymatichub.xyz/apple-touch-icon.png",
+          "logo": "https://cymatichub.xyz/media/hero.png",
           "description": "Institutional sovereign infrastructure, cymatic study research platform, and showcase of creative responsive systems."
         },
         {
@@ -70,15 +104,16 @@
     </script>
     <link rel="manifest" href="/manifest.json" />
     <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
-    <link rel="preload" href="/assets/main-BX861jvN.tsx" as="script" type="module" />
+    <link rel="preload" href="/assets/main-g6doUPHW.tsx" as="script" type="module" />
     <meta name="theme-color" content="#050505" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" href="/media/hero.png" />
+    <link rel="apple-touch-icon" href="/media/hero.png" />
     
     <style>body{margin:0}</style>
-    <script type="module" crossorigin src="/assets/index-DQMAjZvA.js"></script>
+    <script type="module" crossorigin src="/assets/index-n_mJeA9a.js"></script>
     <link rel="modulepreload" crossorigin href="/assets/rolldown-runtime-DS2seoW7.js">
     <link rel="modulepreload" crossorigin href="/assets/vendor-CmQyz53N.js">
-    <link rel="stylesheet" crossorigin href="/assets/index-yxoac9lo.css">
+    <link rel="stylesheet" crossorigin href="/assets/index-7UG-NZmQ.css">
   </head>
   <body>
     <div id="root"></div>
