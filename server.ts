@@ -98,42 +98,6 @@ app.get('/api/health/:subdomain', (c) => {
   });
 });
 
-// SPA Fallback for production (Cloudflare Workers)
-app.notFound(async (c) => {
-  // If it's an API request, return 404
-  if (c.req.path.startsWith('/api/')) {
-    return c.json({ error: 'Not Found', path: c.req.path }, 404);
-  }
-  
-  // If we are in the worker environment and have ASSETS
-  const env = c.env as { ASSETS?: { fetch: typeof fetch } };
-  if (env?.ASSETS) {
-    // Try fetching the original asset first (essential for dynamic TSX/JS module chunks!)
-    const response = await env.ASSETS.fetch(c.req.raw);
-    
-    // If the asset exists, return it immediately
-    if (response.status < 400) {
-      return response;
-    }
-    
-    // If the asset was not found, check if it's a dynamic SPA client-side route
-    // (paths that do not have a dot-extension like /socials, /manifesto, /showcase/template1)
-    const url = new URL(c.req.url);
-    const hasFileExtension = /\.[a-zA-Z0-9]+$/.test(url.pathname);
-    
-    if (!hasFileExtension) {
-      url.pathname = '/index.html';
-      return env.ASSETS.fetch(new Request(url.toString(), c.req.raw));
-    }
-    
-    // If it has a file extension and was not found, return the original 404 response
-    return response;
-  }
-
-  // Fallback: just return 404
-  return c.text('Not Found', 404);
-});
-
 // Get all releases for the download index
 app.get('/api/v1/releases', async (c) => {
   try {
@@ -151,46 +115,56 @@ app.get('/api/v1/releases', async (c) => {
   }
 });
 
+// SPA Fallback for production (Cloudflare Workers)
+app.notFound(async (c) => {
+  if (c.req.path.startsWith('/api/')) {
+    return c.json({ error: 'Not Found', path: c.req.path }, 404);
+  }
+  
+  const env = c.env as { ASSETS?: { fetch: typeof fetch } };
+  if (env?.ASSETS) {
+    const response = await env.ASSETS.fetch(c.req.raw);
+    if (response.status < 400) {
+      return response;
+    }
+    const url = new URL(c.req.url);
+    const hasFileExtension = /\.[a-zA-Z0-9]+$/.test(url.pathname);
+    if (!hasFileExtension) {
+      url.pathname = '/index.html';
+      return env.ASSETS.fetch(new Request(url.toString(), c.req.raw));
+    }
+    return response;
+  }
+  return c.text('Not Found', 404);
+});
+
 // Development server setup
 if (typeof process !== 'undefined' && process.env?.NODE_ENV !== 'production') {
   const startDev = async () => {
-    const { serve } = await import('@hono/node-server');
+    const http = await import('http');
     const { createServer: createViteServer } = await import('vite');
-    const nodeApp = new Hono();
-    
+    const { getRequestListener } = await import('@hono/node-server');
+
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: 'spa',
     });
     
-    // Use Vite middleware first for static assets and SPA fallback
-    nodeApp.use('*', async (c, next) => {
-      // @ts-expect-error - incoming and outgoing are added by @hono/node-server
-      const { incoming, outgoing } = c.env;
-      if (incoming && outgoing) {
-        const wait = new Promise((resolve) => {
-          vite.middlewares(incoming, outgoing, (err) => {
-            if (err) console.error(err);
-            resolve(true);
-          });
-        });
-        await wait;
-        if (outgoing.writableEnded) {
-          return;
-        }
-      }
-      await next();
-    });
+    const requestListener = getRequestListener(app.fetch);
 
-    // Mount our API routes
-    nodeApp.route('/', app);
+    const server = http.createServer((req, res) => {
+      const url = req.url || '';
+      if (url.startsWith('/api/') || url === '/sitemap.xml') {
+        return requestListener(req, res);
+      }
+      vite.middlewares(req, res, () => {
+        requestListener(req, res);
+      });
+    });
 
     const port = 3000;
     console.log(`Starting dev server on http://localhost:${port}`);
-    serve({
-      fetch: nodeApp.fetch,
-      port
-    });
+    server.listen(port, '0.0.0.0');
   };
   
   startDev().catch(console.error);

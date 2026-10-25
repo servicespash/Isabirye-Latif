@@ -30,6 +30,11 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     return (saved && saved !== 'undefined') ? saved : null;
   });
 
+  const [degasAtmosphereActive, setDegasAtmosphereActive] = useState<boolean>(false);
+  const toggleDegasAtmosphere = useCallback(() => {
+    setDegasAtmosphereActive(prev => !prev);
+  }, []);
+
   useEffect(() => {
     localStorage.setItem('showcase_category', selectedCategory);
   }, [selectedCategory]);
@@ -78,7 +83,9 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       setSelectedCategory,
       activeTemplateId,
       setActiveTemplateId,
-      logPageView
+      logPageView,
+      degasAtmosphereActive,
+      toggleDegasAtmosphere
     }}>
       {children}
     </AppContext.Provider>

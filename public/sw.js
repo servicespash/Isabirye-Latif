@@ -1,47 +1,30 @@
-const CACHE_NAME = 'cymatic-v2';
-const STATIC_ASSETS = [
-  '/',
-  '/index.html',
-  '/src/main.tsx',
-  '/src/index.css',
-  '/manifest.json',
-  '/favicon.ico'
-];
+// Cymatic Service Worker - PWA & Cache Management
+const CACHE_NAME = 'cymatic-v4-clean';
 
-// Install: Cache static assets
-self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(STATIC_ASSETS))
-  );
+self.addEventListener('install', () => {
   self.skipWaiting();
 });
 
-// Activate: Clean up old caches
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) => {
-      return Promise.all(
-        keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))
-      );
-    })
+      return Promise.all(keys.map((key) => caches.delete(key)));
+    }).then(() => self.clients.claim())
   );
-  self.clients.claim();
 });
 
-// Fetch: Stale-While-Revalidate strategy
 self.addEventListener('fetch', (event) => {
-  if (event.request.method !== 'GET') return;
-
-  event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      const fetchedResponse = fetch(event.request).then((networkResponse) => {
-        return caches.open(CACHE_NAME).then((cache) => {
-          cache.put(event.request, networkResponse.clone());
-          return networkResponse;
-        });
-      }).catch(() => null);
-
-      return cachedResponse || fetchedResponse;
-    })
-  );
+  // Never intercept or cache development modules, Vite internals, or preview environments
+  const url = new URL(event.request.url);
+  if (
+    url.hostname.includes('ais-dev') ||
+    url.hostname.includes('localhost') ||
+    url.pathname.startsWith('/src/') ||
+    url.pathname.includes('/node_modules/') ||
+    url.pathname.includes('/@vite/') ||
+    url.pathname.includes('/@react-refresh')
+  ) {
+    return;
+  }
 });
+

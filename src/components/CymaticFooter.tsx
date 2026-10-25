@@ -5,6 +5,7 @@ import { ComplianceDashboard } from './ComplianceDashboard';
 import { ChevronDown, ChevronUp, Cpu, ShieldCheck } from 'lucide-react';
 import { useAppContext } from '../hooks/useAppContext';
 import { NewsletterSignup } from './NewsletterSignup';
+import { AdSenseBanner } from './AdSenseBanner';
 
 export const CymaticFooter: React.FC = () => {
   const { branding } = useAppContext();
@@ -17,6 +18,10 @@ export const CymaticFooter: React.FC = () => {
           <ComplianceDashboard />
         </div>
         <NewsletterSignup />
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6 mb-8">
+        <AdSenseBanner label="//_PLATFORM_RESONANCE_MONETIZATION" />
       </div>
       
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-8 items-center text-center md:text-left">

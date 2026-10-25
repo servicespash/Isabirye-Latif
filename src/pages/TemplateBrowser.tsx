@@ -8,6 +8,7 @@ import { QRCodeSVG } from 'qrcode.react';
 import { motion, AnimatePresence } from 'motion/react';
 import templatesData from '../data/templates.json';
 import { useAppContext } from '../hooks/useAppContext';
+import { AdSenseBanner } from '../components/AdSenseBanner';
 
 type DeviceType = 'desktop' | 'tablet' | 'mobile';
 
@@ -240,7 +241,7 @@ export const TemplateBrowser: React.FC = () => {
                   )}
                   <iframe 
                     src={activeTemplate.path} 
-                    className={`w-full h-full border-none bg-white flex-grow ${isLoading || error ? 'hidden' : 'block'}`}
+                    className="w-full h-full border-none bg-white flex-grow"
                     title={`Preview of ${activeTemplate.title}`}
                     onLoad={() => setIsLoading(false)}
                     onError={() => { setIsLoading(false); setError(true); }}
@@ -339,13 +340,14 @@ export const TemplateBrowser: React.FC = () => {
                   </div>
                </div>
              )}
-             <div className="pt-4 mt-4 border-t border-gray-800">
+             <div className="pt-4 mt-4 border-t border-gray-800 space-y-4">
                 <button 
                   onClick={() => navigate('/socials')}
                   className="w-full py-3 bg-[var(--color-accent)] text-black rounded-xl font-bold uppercase tracking-widest text-[10px] hover:opacity-90 transition-all"
                 >
                   // Request_Deployment
                 </button>
+                <AdSenseBanner label="//_MULTIPLEX_TEMPLATE_RECOMMENDATION" />
              </div>
           </div>
         </div>

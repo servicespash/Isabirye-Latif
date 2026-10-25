@@ -23,29 +23,52 @@ export class ErrorBoundary extends Component<Props, State> {
     // Specifically log the component stack
     console.error("Component Stack:", errorInfo.componentStack);
 
-    // Recover from dynamic import failures by reloading the page once
+    // Recover from dynamic import failures or stale module cache by reloading the page
     const errorStr = String(error?.message || error);
     if (
       errorStr.includes('Failed to fetch dynamically imported module') ||
       errorStr.includes('Importing a module script failed') ||
       errorStr.includes('dynamic import') ||
-      errorStr.includes('Loading chunk')
+      errorStr.includes('Loading chunk') ||
+      errorStr.includes('Cannot read properties of null')
     ) {
       const hasReloadedKey = 'cymatic-chunk-fail-reload';
       const lastReload = sessionStorage.getItem(hasReloadedKey);
       const now = Date.now();
       
       // Prevent infinite reload loops
-      if (!lastReload || now - parseInt(lastReload, 10) > 10000) {
+      if (!lastReload || now - parseInt(lastReload, 10) > 8000) {
         sessionStorage.setItem(hasReloadedKey, String(now));
-        console.warn("Dynamic chunk load failure detected. Performing automatic system recovery...");
-        window.location.reload();
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.getRegistrations().then(regs => {
+            regs.forEach(r => r.unregister());
+          });
+        }
+        if ('caches' in window) {
+          caches.keys().then(keys => {
+            keys.forEach(k => caches.delete(k));
+          });
+        }
+        console.warn("Stale module or dynamic chunk failure detected. Purging cache and reloading...");
+        setTimeout(() => {
+          window.location.reload();
+        }, 150);
       }
     }
   }
 
   private handleReset = () => {
     sessionStorage.removeItem('cymatic-chunk-fail-reload');
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(regs => {
+        regs.forEach(r => r.unregister());
+      });
+    }
+    if ('caches' in window) {
+      caches.keys().then(keys => {
+        keys.forEach(k => caches.delete(k));
+      });
+    }
     window.location.href = '/';
   };
 

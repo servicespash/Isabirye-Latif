@@ -10,6 +10,8 @@ import { useFluidGridManager } from './engine/FluidGridManager';
 import { useRouteTracking } from './hooks/useRouteTracking';
 import { useRoutePrefetch } from './hooks/useRoutePrefetch';
 import { useAnalytics } from './hooks/useAnalytics';
+import { useLongPress } from './hooks/useLongPress';
+import { useAppContext } from './hooks/useAppContext';
 import { CymaticLoader } from './components/CymaticLoader';
 
 // Sovereign Additions
@@ -278,6 +280,19 @@ const AnimatedRoutes = () => {
   );
 };
 
+const AtmosphereManager: React.FC = () => {
+  const context = useAppContext();
+  const toggle = context?.toggleDegasAtmosphere;
+  const active = context?.degasAtmosphereActive ?? false;
+
+  useLongPress(() => {
+    if (toggle) toggle();
+  }, 600, true);
+
+  if (!active) return null;
+  return <CymaticSensoryLayer />;
+};
+
 export const App: React.FC = () => {
   const { resonance } = useFluidGridManager();
   
@@ -302,7 +317,7 @@ export const App: React.FC = () => {
                 <SovereignInquiryModal />
                 <CommandPalette />
                 <DevSeoChecklist />
-                <CymaticSensoryLayer />
+                <AtmosphereManager />
                 <Suspense fallback={<CymaticLoader />}>
                   <AnimatedRoutes />
                 </Suspense>

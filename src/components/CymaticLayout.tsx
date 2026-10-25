@@ -7,7 +7,6 @@ import { CymaticFooter } from './CymaticFooter';
 import { RepoRail } from './RepoRail';
 import { useDocumentMetadata } from '../hooks/useDocumentMetadata';
 import { ResonanceAtmosphere } from './ResonanceAtmosphere';
-import { CymaticSensoryLayer } from './CymaticSensoryLayer';
 
 import { Breadcrumbs } from './Breadcrumbs';
 import { ReadingTimeBadge } from './ReadingTimeBadge';
@@ -16,12 +15,13 @@ const UIFrame: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { theme } = useCymaticTheme();
 
   return (
-    <div className={`relative h-screen w-full flex flex-col overflow-x-hidden ${theme}`}>
+    <div 
+      className={`relative h-screen w-full flex flex-col overflow-x-hidden ${theme}`}
+    >
       
       {/* ATMOSPHERIC BACKGROUND SYSTEM */}
       <div className="fixed inset-0 z-0 pointer-events-none print-hidden">
         <ResonanceAtmosphere />
-        <CymaticSensoryLayer />
       </div>
 
       {/* STICKY NAVIGATION */}
