@@ -4,6 +4,7 @@ import { CymaticLayout } from '../components/CymaticLayout';
 import { Monitor, Smartphone, Tablet, ExternalLink, X, LayoutGrid, Filter, Search, Copy, Heart } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import templatesData from '../data/templates.json';
+import { AdSenseBanner } from '../components/AdSenseBanner';
 
 import { useAppContext } from '../hooks/useAppContext';
 
@@ -29,6 +30,14 @@ const templates: TemplateDef[] = templatesData;
 const categories = ['All', ...Array.from(new Set(templates.map(t => t.category)))];
 const PHASES = ['Research', 'Planning', 'Design', 'Deployed'];
 
+const getSystemDeviceKind = (): DeviceType => {
+  if (typeof window === 'undefined') return 'desktop';
+  const width = window.innerWidth;
+  if (width < 768) return 'mobile';
+  if (width < 1024) return 'tablet';
+  return 'desktop';
+};
+
 const getDeviceStyles = (currentDevice: DeviceType) => {
   if (typeof window !== 'undefined' && window.innerWidth < 768) {
     return 'w-full h-full';
@@ -52,8 +61,24 @@ interface SimulatorModalProps {
 
 const SimulatorModal: React.FC<SimulatorModalProps> = ({ activeTemplateId, setActiveTemplateId }) => {
   const { logPageView } = useAppContext();
-  const [currentDevice, setCurrentDevice] = useState<DeviceType>('desktop');
+  const [currentDevice, setCurrentDevice] = useState<DeviceType>(getSystemDeviceKind);
+  const [isManualOverride, setIsManualOverride] = useState(false);
   const activeTemplate = templates.find(t => t.id === activeTemplateId);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (!isManualOverride) {
+        setCurrentDevice(getSystemDeviceKind());
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [isManualOverride]);
+
+  const handleDeviceSelect = (device: DeviceType) => {
+    setIsManualOverride(true);
+    setCurrentDevice(device);
+  };
 
   useEffect(() => {
     if (activeTemplateId) {
@@ -70,7 +95,7 @@ const SimulatorModal: React.FC<SimulatorModalProps> = ({ activeTemplateId, setAc
         <div className="flex items-center gap-4">
           <div>
             <span className="text-white font-extrabold text-sm tracking-wider">CYMATIC <span className="text-blue-500">SHOWCASE</span></span>
-            <p className="text-[10px] text-gray-500 font-medium leading-none">Template Simulation Environment</p>
+            <p className="text-[10px] text-gray-500 font-medium leading-none">Template Simulation Environment ({currentDevice} mode)</p>
           </div>
         </div>
 
@@ -95,32 +120,41 @@ const SimulatorModal: React.FC<SimulatorModalProps> = ({ activeTemplateId, setAc
         <div className="flex items-center gap-2">
           <div className="hidden md:flex items-center gap-1.5 bg-[#171E30] p-1.5 rounded-xl border border-gray-800 shrink-0">
             <button
-              onClick={() => setCurrentDevice('desktop')}
+              onClick={() => handleDeviceSelect('desktop')}
               className={`w-9 h-9 rounded-lg flex items-center justify-center transition-all ${
                 currentDevice === 'desktop' ? 'text-blue-500 bg-blue-500/10' : 'text-gray-400 hover:text-white'
               }`}
-              title="Desktop View"
+              title="Desktop View (System Tracked)"
             >
               <Monitor className="w-4 h-4" />
             </button>
             <button
-              onClick={() => setCurrentDevice('tablet')}
+              onClick={() => handleDeviceSelect('tablet')}
               className={`w-9 h-9 rounded-lg flex items-center justify-center transition-all ${
                 currentDevice === 'tablet' ? 'text-blue-500 bg-blue-500/10' : 'text-gray-400 hover:text-white'
               }`}
-              title="Tablet View"
+              title="Tablet View (System Tracked)"
             >
               <Tablet className="w-4 h-4" />
             </button>
             <button
-              onClick={() => setCurrentDevice('mobile')}
+              onClick={() => handleDeviceSelect('mobile')}
               className={`w-9 h-9 rounded-lg flex items-center justify-center transition-all ${
                 currentDevice === 'mobile' ? 'text-blue-500 bg-blue-500/10' : 'text-gray-400 hover:text-white'
               }`}
-              title="Mobile View"
+              title="Mobile View (System Tracked)"
             >
               <Smartphone className="w-4 h-4" />
             </button>
+            {isManualOverride && (
+              <button
+                onClick={() => { setIsManualOverride(false); setCurrentDevice(getSystemDeviceKind()); }}
+                className="text-[10px] font-mono text-amber-400 hover:underline px-2"
+                title="Reset to automatic system tracking"
+              >
+                Auto
+              </button>
+            )}
             <a
               href={activeTemplate.path}
               target="_blank"
@@ -489,6 +523,11 @@ export const Showcase: React.FC = () => {
               </motion.div>
             ))}
           </AnimatePresence>
+        </div>
+
+        {/* AdSense Monetization Banner */}
+        <div className="pt-4">
+          <AdSenseBanner label="//_TEMPLATE_SHOWCASE_SPONSOR" />
         </div>
 
       </div>

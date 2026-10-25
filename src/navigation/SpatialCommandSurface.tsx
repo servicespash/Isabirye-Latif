@@ -15,14 +15,14 @@ export const SpatialCommandSurface: React.FC<SpatialCommandSurfaceProps> = ({ is
       {/* 1. MASTER SURFACE CONTROL BAR */}
       <div className="flex justify-between items-center w-full max-w-7xl mx-auto border-b border-[var(--color-border)] pb-6">
         <div className="flex flex-col gap-1">
-          <span className="text-[10px] font-mono tracking-[0.4em] text-[#00f2fe] uppercase">// SYSTEM_ORBITAL_NAVIGATION</span>
-          <span className="text-[9px] font-mono text-[var(--color-text-secondary)] uppercase">LATIF_SOLO_ARCHITECT_CORE</span>
+          <span className="text-[10px] font-mono tracking-[0.4em] text-[#00f2fe] uppercase">SYSTEM ORBITAL NAVIGATION</span>
+          <span className="text-[9px] font-mono text-[var(--color-text-secondary)] uppercase">LATIF ARCHITECT CORE</span>
         </div>
         <button 
           onClick={onClose}
           className="px-6 py-2 rounded-full border border-[var(--color-border)] text-[10px] font-bold uppercase tracking-[0.25em] text-[var(--color-text-primary)] hover:border-[#00f2fe] hover:text-[#00f2fe] transition-all duration-300"
         >
-          //_CLOSE_MATRIX
+          CLOSE MATRIX
         </button>
       </div>
 
@@ -31,19 +31,19 @@ export const SpatialCommandSurface: React.FC<SpatialCommandSurfaceProps> = ({ is
         
         {/* HOME */}
         <Link to="/" onClick={onClose} className="group p-8 rounded-3xl border border-[var(--color-border)] bg-[var(--color-bg-secondary)]/30 hover:border-[#00f2fe] transition-all duration-500">
-          <div className="text-[9px] font-mono text-[#00f2fe] mb-2 tracking-widest">// NODE_01</div>
+          <div className="text-[9px] font-mono text-[#00f2fe] mb-2 tracking-widest">NODE 01</div>
           <h3 className="text-2xl font-bold uppercase tracking-wider text-[var(--color-text-primary)] group-hover:translate-x-2 transition-transform duration-300">Home</h3>
         </Link>
 
         {/* ORIGIN (Manifesto) */}
         <Link to="/manifesto" onClick={onClose} className="group p-8 rounded-3xl border border-[var(--color-border)] bg-[var(--color-bg-secondary)]/30 hover:border-[#4facfe] transition-all duration-500">
-          <div className="text-[9px] font-mono text-[#4facfe] mb-2 tracking-widest">// NODE_02</div>
+          <div className="text-[9px] font-mono text-[#4facfe] mb-2 tracking-widest">NODE 02</div>
           <h3 className="text-2xl font-bold uppercase tracking-wider text-[var(--color-text-primary)] group-hover:translate-x-2 transition-transform duration-300">Origin</h3>
         </Link>
 
         {/* PROJECTS */}
         <Link to="/projects" onClick={onClose} className="group p-8 rounded-3xl border border-[var(--color-border)] bg-[var(--color-bg-secondary)]/30 hover:border-[#7f00ff] transition-all duration-500">
-          <div className="text-[9px] font-mono text-[#7f00ff] mb-2 tracking-widest">// NODE_03</div>
+          <div className="text-[9px] font-mono text-[#7f00ff] mb-2 tracking-widest">NODE 03</div>
           <h3 className="text-2xl font-bold uppercase tracking-wider text-[var(--color-text-primary)] group-hover:translate-x-2 transition-transform duration-300">Projects</h3>
         </Link>
 

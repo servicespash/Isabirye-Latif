@@ -42,7 +42,7 @@ const UIFrame: React.FC<{ children: React.ReactNode }> = ({ children }) => {
               {/* PRINT-ONLY OFFICIAL HEADER */}
               <div className="print-header">
                 <div className="print-header-brand">
-                  <h1>Isabirye Latif // Cymatic Engines Evolution</h1>
+                  <h1>Isabirye Latif — Cymatic Engines Evolution</h1>
                   <p>Solo Architect & Systems Infrastructure</p>
                 </div>
                 <div className="print-header-meta">
@@ -59,7 +59,7 @@ const UIFrame: React.FC<{ children: React.ReactNode }> = ({ children }) => {
               <div className="print-footer">
                 <div className="print-footer-info">
                   <p><strong>Isabirye Latif (Latty Adams)</strong></p>
-                  <p>Solo Architect & Resonance Engineer // Cymatic Engines Evolution</p>
+                  <p>Solo Architect & Resonance Engineer — Cymatic Engines Evolution</p>
                   <p>https://cymatichub.xyz | Kampala, Uganda | contact@cymatichub.xyz</p>
                 </div>
                 <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://cymatichub.xyz" alt="QR Code to Cymatic Study" className="print-qr-code" loading="lazy" referrerPolicy="no-referrer" />

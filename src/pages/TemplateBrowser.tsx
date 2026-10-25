@@ -3,7 +3,7 @@ import { collection, addDoc } from 'firebase/firestore';
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { CymaticLayout } from '../components/CymaticLayout';
-import { Monitor, Smartphone, Tablet, ExternalLink, ChevronLeft, LayoutGrid, Star, Copy } from 'lucide-react';
+import { Monitor, Smartphone, Tablet, ExternalLink, ChevronLeft, LayoutGrid, Star, Copy, ShieldCheck, RotateCcw, Maximize2 } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
 import { motion, AnimatePresence } from 'motion/react';
 import templatesData from '../data/templates.json';
@@ -33,17 +33,25 @@ interface TemplateDef {
 
 const templates: TemplateDef[] = templatesData;
 
+const getSystemDeviceKind = (): DeviceType => {
+  if (typeof window === 'undefined') return 'desktop';
+  const width = window.innerWidth;
+  if (width < 768) return 'mobile';
+  if (width < 1024) return 'tablet';
+  return 'desktop';
+};
+
 const getDeviceStyles = (currentDevice: DeviceType) => {
   if (typeof window !== 'undefined' && window.innerWidth < 768) {
     return 'w-full h-full';
   }
   switch (currentDevice) {
     case 'desktop':
-      return 'w-full h-full';
+      return 'w-full h-full rounded-xl border border-slate-800 shadow-2xl';
     case 'tablet':
-      return 'w-[768px] h-[90vh] max-h-[900px] rounded-3xl border-8 border-gray-800 shadow-2xl';
+      return 'w-[768px] h-[90vh] max-h-[900px] rounded-2xl border-4 border-slate-700 shadow-2xl';
     case 'mobile':
-      return 'w-[375px] h-[80vh] max-h-[750px] rounded-3xl border-8 border-gray-800 shadow-2xl';
+      return 'w-[375px] h-[80vh] max-h-[750px] rounded-3xl border-4 border-slate-700 shadow-2xl';
     default:
       return 'w-full h-full';
   }
@@ -53,12 +61,31 @@ export const TemplateBrowser: React.FC = () => {
   const { templateId } = useParams<{ templateId: string }>();
   const navigate = useNavigate();
   const { logPageView } = useAppContext();
-  const [currentDevice, setCurrentDevice] = useState<DeviceType>('desktop');
+  const [currentDevice, setCurrentDevice] = useState<DeviceType>(getSystemDeviceKind);
+  const [isManualOverride, setIsManualOverride] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [key, setKey] = useState(0);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   
   const activeTemplate = templates.find(t => t.id === templateId);
+
+  // System device tracking via window resize
+  useEffect(() => {
+    const handleResize = () => {
+      if (!isManualOverride) {
+        setCurrentDevice(getSystemDeviceKind());
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [isManualOverride]);
+
+  const handleDeviceSelect = (device: DeviceType) => {
+    setIsManualOverride(true);
+    setCurrentDevice(device);
+  };
 
   const copyLink = () => {
     navigator.clipboard.writeText(window.location.href);
@@ -90,12 +117,18 @@ export const TemplateBrowser: React.FC = () => {
     }
   };
 
+  const handleReload = () => {
+    setIsLoading(true);
+    setKey(prev => prev + 1);
+  };
+
   if (!activeTemplate) {
     return (
       <CymaticLayout>
         <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-6">
-          <h1 className="text-4xl font-black text-white italic">Template Not Found</h1>
-          <Link to="/showcase" className="px-8 py-3 bg-[var(--color-accent)] text-black rounded-xl font-bold uppercase tracking-widest text-xs">
+          <h1 className="text-4xl font-black text-white tracking-tight">Template Not Found</h1>
+          <p className="text-slate-400 font-mono text-sm">The requested conceptual blueprint does not exist in the registry.</p>
+          <Link to="/showcase" className="px-8 py-3 bg-blue-600 text-white rounded-xl font-mono text-xs uppercase tracking-widest hover:bg-blue-500 transition-all shadow-lg shadow-blue-600/20">
             Return to Showcase
           </Link>
         </div>
@@ -105,88 +138,130 @@ export const TemplateBrowser: React.FC = () => {
 
   return (
     <CymaticLayout
-      seoTitle={`${activeTemplate.title} | Template Browser | Isabirye Latif`}
+      seoTitle={`${activeTemplate.title} | Immersive Preview | Isabirye Latif`}
       seoDescription={activeTemplate.description}
       seoOgImage={activeTemplate.image}
     >
-      <div className="flex flex-col h-[calc(100vh-200px)] min-h-[600px] bg-[#090D1A] rounded-2xl border border-gray-800 overflow-hidden shadow-2xl">
-        {/* Top Control Bar */}
-        <header className="h-14 bg-[#111625] border-b border-gray-800 flex items-center justify-between px-6 shrink-0">
+      <div className={`flex flex-col bg-[#090D1A] rounded-2xl border border-slate-800/80 overflow-hidden shadow-2xl transition-all duration-300 ${isFullscreen ? 'fixed inset-4 z-[200] h-[calc(100vh-2rem)]' : 'h-[calc(100vh-160px)] min-h-[650px]'}`}>
+        
+        {/* Professional Browser Control Bar with System Device Tracking */}
+        <header className="h-14 bg-[#111625] border-b border-slate-800 flex items-center justify-between px-6 shrink-0">
           <div className="flex items-center gap-4">
             <button 
               onClick={() => navigate('/showcase')}
-              className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors group"
+              className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors group"
             >
               <ChevronLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-              <span className="text-[10px] font-bold uppercase tracking-widest">Back</span>
+              <span className="text-[10px] font-mono font-bold uppercase tracking-widest">Directory</span>
             </button>
-            <div className="h-4 w-[1px] bg-gray-800 mx-2"></div>
-            <div>
-              <span className="text-white font-black text-xs tracking-wider uppercase">{activeTemplate.title}</span>
-              <p className="text-[8px] text-gray-500 font-bold uppercase tracking-widest leading-none">Live Simulation</p>
+            <div className="h-4 w-[1px] bg-slate-800 mx-1"></div>
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <div>
+                <span className="text-white font-bold text-xs tracking-wide">{activeTemplate.title}</span>
+                <span className="text-[9px] text-slate-400 font-mono ml-2 px-2 py-0.5 rounded bg-slate-800/60 uppercase">{activeTemplate.category}</span>
+              </div>
             </div>
           </div>
 
-          {/* Template Switcher */}
-          <div className="flex items-center gap-2">
+          {/* Center URL Address Bar Simulation with System Device Kind indicator */}
+          <div className="hidden lg:flex items-center gap-2 bg-[#090D1A] border border-slate-800 rounded-lg px-4 py-1.5 w-96 text-slate-400 text-xs font-mono justify-between">
+            <div className="flex items-center gap-2 truncate">
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+              <span className="truncate">latty-studio.dev/{activeTemplate.id}</span>
+            </div>
+            <span className="text-[9px] px-2 py-0.5 rounded bg-blue-500/10 text-blue-400 uppercase font-mono font-bold shrink-0">
+              {currentDevice} mode
+            </span>
+          </div>
+
+          {/* Template Switcher Pills */}
+          <div className="hidden xl:flex items-center gap-1.5">
             {templates.map(t => (
                <button 
                  key={t.id}
                  onClick={() => navigate(`/template/${t.id}`)}
-                 className={`text-[8px] uppercase tracking-widest font-bold px-2 py-1 rounded-full border transition-all ${
-                    activeTemplate.id === t.id ? 'bg-[var(--color-accent)] text-black border-[var(--color-accent)]' : 'bg-transparent text-gray-500 border-gray-800 hover:text-white'
+                 className={`text-[9px] font-mono uppercase tracking-wider px-2.5 py-1 rounded-md transition-all ${
+                    activeTemplate.id === t.id ? 'bg-blue-600 text-white font-bold shadow' : 'bg-[#171E30] text-slate-400 hover:text-white'
                  }`}
                >
-                  {t.title}
+                  {t.title.split(' ')[0]}
                </button>
             ))}
           </div>
 
-          {/* Device Responsive Simulators (Desktop only) */}
+          {/* Controls: System-tracked Device Viewports & Actions */}
           <div className="flex items-center gap-2">
-            <div className="hidden md:flex items-center gap-1 bg-[#171E30] p-1 rounded-full border border-gray-800">
+            <button
+              onClick={handleReload}
+              className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all"
+              title="Reload Simulator"
+            >
+              <RotateCcw className="w-3.5 h-3.5" />
+            </button>
+
+            <div className="hidden md:flex items-center gap-1 bg-[#171E30] p-1 rounded-lg border border-slate-800">
               <button
-                onClick={() => setCurrentDevice('desktop')}
-                className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${
-                  currentDevice === 'desktop' ? 'text-blue-500 bg-blue-500/10' : 'text-gray-400 hover:text-white'
+                onClick={() => handleDeviceSelect('desktop')}
+                className={`w-7 h-7 rounded-md flex items-center justify-center transition-all ${
+                  currentDevice === 'desktop' ? 'text-blue-400 bg-blue-500/10 font-bold' : 'text-slate-400 hover:text-white'
                 }`}
-                title="Desktop View"
+                title="Desktop View (System Tracked)"
               >
                 <Monitor className="w-3.5 h-3.5" />
               </button>
               <button
-                onClick={() => setCurrentDevice('tablet')}
-                className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${
-                  currentDevice === 'tablet' ? 'text-blue-500 bg-blue-500/10' : 'text-gray-400 hover:text-white'
+                onClick={() => handleDeviceSelect('tablet')}
+                className={`w-7 h-7 rounded-md flex items-center justify-center transition-all ${
+                  currentDevice === 'tablet' ? 'text-blue-400 bg-blue-500/10 font-bold' : 'text-slate-400 hover:text-white'
                 }`}
-                title="Tablet View"
+                title="Tablet View (System Tracked)"
               >
                 <Tablet className="w-3.5 h-3.5" />
               </button>
               <button
-                onClick={() => setCurrentDevice('mobile')}
-                className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${
-                  currentDevice === 'mobile' ? 'text-blue-500 bg-blue-500/10' : 'text-gray-400 hover:text-white'
+                onClick={() => handleDeviceSelect('mobile')}
+                className={`w-7 h-7 rounded-md flex items-center justify-center transition-all ${
+                  currentDevice === 'mobile' ? 'text-blue-400 bg-blue-500/10 font-bold' : 'text-slate-400 hover:text-white'
                 }`}
-                title="Mobile View"
+                title="Mobile View (System Tracked)"
               >
                 <Smartphone className="w-3.5 h-3.5" />
               </button>
             </div>
             
-            <button
-                onClick={copyLink}
-                className="w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/5 transition-all relative"
-                title="Copy Link"
+            {isManualOverride && (
+              <button
+                onClick={() => { setIsManualOverride(false); setCurrentDevice(getSystemDeviceKind()); }}
+                className="text-[9px] font-mono text-amber-400 hover:underline px-2"
+                title="Reset to automatic system tracking"
               >
-                <Copy className="w-3.5 h-3.5" />
-                {copied && <span className="absolute -top-6 bg-white text-black text-[8px] font-bold px-1 rounded">Copied!</span>}
+                Auto
               </button>
-              <a
+            )}
+
+            <button
+              onClick={() => setIsFullscreen(!isFullscreen)}
+              className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all"
+              title="Toggle Fullscreen"
+            >
+              <Maximize2 className="w-3.5 h-3.5" />
+            </button>
+
+            <button
+              onClick={copyLink}
+              className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all relative"
+              title="Copy Share Link"
+            >
+              <Copy className="w-3.5 h-3.5" />
+              {copied && <span className="absolute -top-7 bg-white text-slate-900 text-[9px] font-bold px-2 py-0.5 rounded shadow">Copied!</span>}
+            </button>
+
+            <a
               href={activeTemplate.path}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/5 transition-all"
+              className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all"
               title="Open in new tab"
             >
               <ExternalLink className="w-3.5 h-3.5" />
@@ -194,54 +269,49 @@ export const TemplateBrowser: React.FC = () => {
           </div>
         </header>
 
-        {/* Main Live Simulator Workspace */}
-        <main className="flex-grow flex items-center justify-center relative overflow-hidden bg-[radial-gradient(circle_at_center,#111625_0%,#090D1A_100%)]">
-          <div className="w-full h-full flex flex-col items-center justify-center overflow-auto scrollbar-hide">
+        {/* Main Simulation Workspace */}
+        <main className="flex-grow flex items-center justify-center relative overflow-hidden bg-[radial-gradient(circle_at_center,#141C31_0%,#090D1A_100%)] p-4 md:p-8">
+          <div className="w-full h-full flex flex-col items-center justify-center overflow-auto">
             <AnimatePresence mode="wait">
               <motion.div 
-                key={activeTemplate.id}
-                initial={{ opacity: 0, scale: 0.95 }}
+                key={`${activeTemplate.id}-${currentDevice}-${key}`}
+                initial={{ opacity: 0, scale: 0.98 }}
                 animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.3 }}
-                className={`bg-white overflow-hidden flex flex-col relative transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${getDeviceStyles(currentDevice)}`}
+                exit={{ opacity: 0, scale: 0.98 }}
+                transition={{ duration: 0.25 }}
+                className={`bg-white overflow-hidden flex flex-col relative shadow-2xl ${getDeviceStyles(currentDevice)}`}
               >
-                
-                {/* Simulated Device Browser Bar */}
-                <AnimatePresence>
-                  {currentDevice !== 'desktop' && (
-                    <motion.div 
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 32, opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      className="h-8 bg-gray-100 border-b border-gray-200 px-4 flex items-center gap-2 shrink-0"
-                    >
-                      <div className="flex gap-1.5">
-                        <span className="w-2 h-2 rounded-full bg-red-400"></span>
-                        <span className="w-2 h-2 rounded-full bg-yellow-400"></span>
-                        <span className="w-2 h-2 rounded-full bg-green-400"></span>
-                      </div>
-                      <div className="flex-grow max-w-[150px] mx-auto bg-white rounded-md text-[8px] text-gray-400 py-0.5 px-2 text-center truncate border border-gray-200 font-mono">
-                        cymatichub.xyz/{activeTemplate.id}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                {/* Simulated macOS / Browser Chrome Header for non-desktop */}
+                {currentDevice !== 'desktop' && (
+                  <div className="h-9 bg-slate-900 border-b border-slate-800 px-4 flex items-center justify-between shrink-0">
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-2.5 h-2.5 rounded-full bg-rose-500"></span>
+                      <span className="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+                      <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+                    </div>
+                    <div className="bg-slate-800/80 rounded-md text-[10px] text-slate-300 py-1 px-4 text-center font-mono truncate border border-slate-700/50">
+                      latty-studio.dev/{activeTemplate.id} ({currentDevice})
+                    </div>
+                    <div className="w-10"></div>
+                  </div>
+                )}
 
-                <div className="w-full h-full flex flex-col relative flex-grow">
+                <div className="w-full h-full flex flex-col relative flex-grow bg-white">
                   {isLoading && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-[#090D1A] z-10">
-                      <div className="text-[10px] font-mono text-gray-500 uppercase tracking-widest animate-pulse">Loading Asset...</div>
+                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#090D1A] z-20 gap-3">
+                      <div className="w-8 h-8 rounded-full border-2 border-blue-500 border-t-transparent animate-spin"></div>
+                      <span className="text-xs font-mono text-slate-400 uppercase tracking-widest animate-pulse">Rendering Blueprint...</span>
                     </div>
                   )}
                   {error && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-[#090D1A] z-10">
-                      <div className="text-[10px] font-mono text-red-500 uppercase tracking-widest">Asset not found.</div>
+                    <div className="absolute inset-0 flex items-center justify-center bg-[#090D1A] z-20">
+                      <div className="text-xs font-mono text-rose-400 uppercase tracking-widest">Failed to load asset bundle.</div>
                     </div>
                   )}
                   <iframe 
+                    key={key}
                     src={activeTemplate.path} 
-                    className="w-full h-full border-none bg-white flex-grow"
+                    className={`w-full h-full border-none bg-white flex-grow ${isLoading || error ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}
                     title={`Preview of ${activeTemplate.title}`}
                     onLoad={() => setIsLoading(false)}
                     onError={() => { setIsLoading(false); setError(true); }}
@@ -253,101 +323,114 @@ export const TemplateBrowser: React.FC = () => {
         </main>
       </div>
 
-      {/* Info Section Below */}
+      {/* AdSense Monetization Slot */}
+      <div className="my-6">
+        <AdSenseBanner label="//_MULTIPLEX_TEMPLATE_RECOMMENDATION" />
+      </div>
+
+      {/* Comprehensive Intel & Architecture Section */}
       <div className="mt-8 grid md:grid-cols-3 gap-6">
         <div className="md:col-span-2 space-y-4">
-          <h2 className="text-2xl font-black text-white italic uppercase tracking-tighter flex items-center gap-2">
-            <LayoutGrid className="w-6 h-6 text-[var(--color-accent)]" />
-            Template Intel
+          <h2 className="text-xl font-bold text-white uppercase tracking-wider flex items-center gap-2">
+            <LayoutGrid className="w-5 h-5 text-blue-400" />
+            Blueprint Specification & Intel
           </h2>
-          <div className="bg-[#111625] border border-gray-800 rounded-2xl p-6 space-y-4">
+          <div className="bg-[#111625] border border-slate-800 rounded-2xl p-6 space-y-6">
             <div>
-              <h3 className="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-2">Technical Description</h3>
-              <p className="text-sm text-gray-300 leading-relaxed font-sans">{activeTemplate.description}</p>
+              <h3 className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-400 mb-2">Executive Summary</h3>
+              <p className="text-slate-300 text-sm leading-relaxed font-sans">{activeTemplate.description}</p>
             </div>
-            <div className="grid sm:grid-cols-2 gap-4">
+            
+            <div className="grid sm:grid-cols-2 gap-6 pt-4 border-t border-slate-800/80">
               <div>
-                <h3 className="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-2">Category</h3>
-                <span className="px-3 py-1 bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-full text-[10px] font-bold uppercase tracking-widest">{activeTemplate.category}</span>
+                <h4 className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-500 mb-1">Industry Domain</h4>
+                <span className="text-xs font-mono text-blue-400 font-semibold">{activeTemplate.industry}</span>
               </div>
               <div>
-                <h3 className="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-2">Deployment Phase</h3>
-                <span className="px-3 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-full text-[10px] font-bold uppercase tracking-widest">{activeTemplate.phase}</span>
+                <h4 className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-500 mb-1">Deployment Phase</h4>
+                <span className="text-xs font-mono text-emerald-400 font-semibold">{activeTemplate.phase}</span>
               </div>
               <div>
-                <h3 className="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-2">Industry</h3>
-                <span className="px-3 py-1 bg-purple-500/10 text-purple-400 border border-purple-500/20 rounded-full text-[10px] font-bold uppercase tracking-widest">{activeTemplate.industry}</span>
+                <h4 className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-500 mb-1">Primary Use Case</h4>
+                <span className="text-xs font-mono text-purple-400 font-semibold">{activeTemplate.useCase}</span>
               </div>
               <div>
-                <h3 className="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-2">Use Case</h3>
-                <span className="px-3 py-1 bg-yellow-500/10 text-yellow-400 border border-yellow-500/20 rounded-full text-[10px] font-bold uppercase tracking-widest">{activeTemplate.useCase}</span>
+                <h4 className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-500 mb-1">Tech Stack Architecture</h4>
+                <span className="text-xs font-mono text-amber-400 font-semibold">{activeTemplate.techStack}</span>
               </div>
-              <div className="col-span-2">
-                <h3 className="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-2">Tech Stack</h3>
-                <p className="text-sm text-gray-300 font-mono">{activeTemplate.techStack}</p>
+            </div>
+
+            <div className="pt-6 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-6">
+              <div className="flex items-center gap-4">
+                 <div className="bg-white p-2 rounded-xl shadow-inner">
+                   <QRCodeSVG value={window.location.href} size={72} />
+                 </div>
+                 <div>
+                   <span className="text-xs font-bold text-white block">Mobile Handoff</span>
+                   <span className="text-[10px] text-slate-400 font-mono">Scan QR code to test on device</span>
+                 </div>
               </div>
               
-              <div className="col-span-2 pt-4 border-t border-gray-800 flex items-center justify-between">
-                <div className="flex flex-col items-center gap-2">
-                   <QRCodeSVG value={window.location.href} size={64} className="bg-white p-1 rounded" />
-                   <span className="text-[8px] text-gray-500 uppercase font-bold tracking-widest">Mobile Preview</span>
-                </div>
-                
-                <div className="flex flex-col items-end gap-2">
-                   <span className="text-[8px] text-gray-500 uppercase font-bold tracking-widest">Rate Template</span>
-                   <div className="flex items-center gap-1">
-                     {[1, 2, 3, 4, 5].map((star) => (
-                       <Star
-                         key={star}
-                         className={`w-6 h-6 cursor-pointer ${star <= rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-600'}`}
-                         onClick={() => handleRating(star)}
-                       />
-                     ))}
-                   </div>
-                </div>
+              <div className="flex flex-col items-center sm:items-end gap-2">
+                 <span className="text-[10px] font-mono uppercase tracking-widest text-slate-400 font-bold">Rate Blueprint Quality</span>
+                 <div className="flex items-center gap-1.5 bg-slate-900/80 p-2 rounded-xl border border-slate-800">
+                   {[1, 2, 3, 4, 5].map((star) => (
+                     <Star
+                       key={star}
+                       className={`w-5 h-5 cursor-pointer transition-colors ${star <= rating ? 'fill-amber-400 text-amber-400' : 'text-slate-600 hover:text-slate-400'}`}
+                       onClick={() => handleRating(star)}
+                     />
+                   ))}
+                 </div>
               </div>
             </div>
           </div>
         </div>
         
         <div className="space-y-4">
-          <h2 className="text-2xl font-black text-white italic uppercase tracking-tighter">Architecture</h2>
-          <div className="bg-[#111625] border border-gray-800 rounded-2xl p-6 space-y-4">
+          <h2 className="text-xl font-bold text-white uppercase tracking-wider">Performance Audit</h2>
+          <div className="bg-[#111625] border border-slate-800 rounded-2xl p-6 space-y-6">
              {activeTemplate.metrics && (
-               <div className="space-y-4">
-                  <div className="flex justify-between items-center">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Performance</span>
-                    <span className="text-sm font-mono font-bold text-emerald-400">{activeTemplate.metrics.performance}%</span>
-                  </div>
-                  <div className="w-full h-1 bg-gray-800 rounded-full overflow-hidden">
-                    <div className="h-full bg-emerald-500" style={{ width: `${activeTemplate.metrics.performance}%` }}></div>
-                  </div>
-                  
-                  <div className="flex justify-between items-center pt-2">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Accessibility</span>
-                    <span className="text-sm font-mono font-bold text-emerald-400">{activeTemplate.metrics.accessibility}%</span>
-                  </div>
-                  <div className="w-full h-1 bg-gray-800 rounded-full overflow-hidden">
-                    <div className="h-full bg-emerald-500" style={{ width: `${activeTemplate.metrics.accessibility}%` }}></div>
+               <div className="space-y-5">
+                  <div>
+                    <div className="flex justify-between items-center mb-1.5">
+                      <span className="text-xs font-mono font-bold text-slate-300">Performance Index</span>
+                      <span className="text-xs font-mono font-bold text-emerald-400">{activeTemplate.metrics.performance}%</span>
+                    </div>
+                    <div className="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                      <div className="h-full bg-emerald-500 rounded-full transition-all duration-1000" style={{ width: `${activeTemplate.metrics.performance}%` }}></div>
+                    </div>
                   </div>
                   
-                  <div className="flex justify-between items-center pt-2">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400">SEO Integrity</span>
-                    <span className="text-sm font-mono font-bold text-emerald-400">{activeTemplate.metrics.seo}%</span>
+                  <div>
+                    <div className="flex justify-between items-center mb-1.5">
+                      <span className="text-xs font-mono font-bold text-slate-300">Accessibility Compliance</span>
+                      <span className="text-xs font-mono font-bold text-emerald-400">{activeTemplate.metrics.accessibility}%</span>
+                    </div>
+                    <div className="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                      <div className="h-full bg-emerald-500 rounded-full transition-all duration-1000" style={{ width: `${activeTemplate.metrics.accessibility}%` }}></div>
+                    </div>
                   </div>
-                  <div className="w-full h-1 bg-gray-800 rounded-full overflow-hidden">
-                    <div className="h-full bg-emerald-500" style={{ width: `${activeTemplate.metrics.seo}%` }}></div>
+                  
+                  <div>
+                    <div className="flex justify-between items-center mb-1.5">
+                      <span className="text-xs font-mono font-bold text-slate-300">SEO Score</span>
+                      <span className="text-xs font-mono font-bold text-emerald-400">{activeTemplate.metrics.seo}%</span>
+                    </div>
+                    <div className="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                      <div className="h-full bg-emerald-500 rounded-full transition-all duration-1000" style={{ width: `${activeTemplate.metrics.seo}%` }}></div>
+                    </div>
                   </div>
                </div>
              )}
-             <div className="pt-4 mt-4 border-t border-gray-800 space-y-4">
+
+             <div className="pt-4 border-t border-slate-800">
                 <button 
                   onClick={() => navigate('/socials')}
-                  className="w-full py-3 bg-[var(--color-accent)] text-black rounded-xl font-bold uppercase tracking-widest text-[10px] hover:opacity-90 transition-all"
+                  className="w-full py-3.5 bg-blue-600 text-white rounded-xl font-mono font-bold uppercase tracking-widest text-xs hover:bg-blue-500 transition-all shadow-lg shadow-blue-600/20"
                 >
-                  // Request_Deployment
+                  // Request Custom Build
                 </button>
-                <AdSenseBanner label="//_MULTIPLEX_TEMPLATE_RECOMMENDATION" />
              </div>
           </div>
         </div>

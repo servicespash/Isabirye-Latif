@@ -1,5 +1,6 @@
 import { CymaticLayout } from '../components/CymaticLayout';
 import { JSONLD } from '../components/JSONLD';
+import { DynamicAdInjector } from '../components/DynamicAdInjector';
 
 export const Learning = () => {
   const courseSchema = {
@@ -16,7 +17,7 @@ export const Learning = () => {
   return (
     <CymaticLayout>
       <JSONLD schema={courseSchema} />
-      <div className="space-y-16">
+      <div id="learning-content-container" className="space-y-16">
         <section className="pt-10">
           <h2 className="font-mono text-[var(--color-accent)] text-[10px] tracking-[0.3em] uppercase mb-6">// MASTER_TRAJECTORY</h2>
           <h1 className="font-serif text-6xl md:text-8xl font-bold tracking-tighter leading-[0.9] text-[var(--color-text-primary)] mb-10">
@@ -44,6 +45,14 @@ export const Learning = () => {
           </div>
         </section>
       </div>
+
+      {/* Modular DOM-scanning Ad Insertion Engine */}
+      <DynamicAdInjector 
+        containerId="learning-content-container" 
+        targetTag="p" 
+        frequency={1} 
+        label="//_MODULAR_LEARNING_MONETIZATION" 
+      />
     </CymaticLayout>
   );
 };

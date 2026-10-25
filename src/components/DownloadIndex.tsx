@@ -79,7 +79,7 @@ export const DownloadIndex: React.FC = () => {
             <div key={app} className="p-6 rounded-3xl border border-[var(--color-accent)]/20 bg-[var(--color-accent)]/5 backdrop-blur-md space-y-4">
               <div className="flex items-center justify-between">
                 <h4 className="text-xs font-mono font-bold text-[var(--color-accent)] uppercase tracking-widest">
-                  // LATEST_{app.toUpperCase()}_STABLE
+                  LATEST RELEASE STABLE
                 </h4>
                 <span className="text-[10px] font-mono text-white/40">{releases[0].tag_name}</span>
               </div>
@@ -100,7 +100,7 @@ export const DownloadIndex: React.FC = () => {
 
       {/* Historical Release Index */}
       <div className="p-6 glass-card border border-[var(--color-border)] rounded-3xl overflow-hidden">
-        <h3 className="text-sm font-black text-white uppercase tracking-tight mb-6">//_DOWNLOAD_METRICS_INDEX</h3>
+        <h3 className="text-sm font-black text-white uppercase tracking-tight mb-6">DOWNLOAD METRICS INDEX</h3>
         <div className="overflow-x-auto">
           <table className="w-full text-left font-mono text-[10px] text-slate-400 min-w-[500px]">
             <thead>

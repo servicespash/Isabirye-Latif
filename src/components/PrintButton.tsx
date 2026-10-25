@@ -42,16 +42,16 @@ export const PrintButton = () => {
         id="sovereign-print-trigger"
       >
         <Printer className="w-4 h-4" />
-        <span className="hidden md:inline px-1.5 text-[10px] font-bold uppercase tracking-[0.35em]">//_PRINT</span>
-      </button>
+        <span className="hidden md:inline px-1.5 text-[10px] font-bold uppercase tracking-[0.35em]">PRINT</span>
+        </button>
 
-      {/* Iframe Safe Fallback Popover */}
-      {showIframeModal && (
+        {/* Iframe Safe Fallback Popover */}
+        {showIframeModal && (
         <div className="absolute right-0 bottom-full mb-3 w-72 p-4 rounded-xl border border-[var(--color-accent)]/30 bg-[#09090b]/95 backdrop-blur-md text-white shadow-2xl pointer-events-auto z-50 font-mono text-[10px] space-y-3">
           <div className="flex items-start gap-2 text-[var(--color-accent)]">
             <HelpCircle className="w-4 h-4 shrink-0 mt-0.5" />
             <div className="space-y-1">
-              <span className="font-bold block uppercase tracking-wider">// SANDBOX_ISOLATION</span>
+              <span className="font-bold block uppercase tracking-wider">SANDBOX ISOLATION</span>
               <span className="text-neutral-400 text-[8px] leading-relaxed block">
                 Browser sandboxing inside the editor preview iframe prevents calling the native Print/PDF dialog directly.
               </span>

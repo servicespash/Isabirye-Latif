@@ -57,13 +57,13 @@ export const OfflineStatusBanner: React.FC = () => {
                     <ShieldCheck className="w-4 h-4" />
                   </div>
                   <div className="font-mono text-[10px]">
-                    <span className="font-bold text-emerald-400 block uppercase tracking-wider">//_CONNECTION_RESTORED_SUCCESSFULLY</span>
+                    <span className="font-bold text-emerald-400 block uppercase tracking-wider">CONNECTION RESTORED SUCCESSFULLY</span>
                     <span className="text-emerald-500/80 uppercase">SOVEREIGN NETWORK TERMINAL SYNC STABILIZED. COHORT ENGINES SECURE.</span>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 shrink-0 font-mono text-[8px] px-2 py-0.5 rounded bg-emerald-950/80 border border-emerald-500/20 text-emerald-400">
                   <Activity className="w-2.5 h-2.5 animate-pulse" />
-                  <span>ONLINE_ACTIVE</span>
+                  <span>ONLINE ACTIVE</span>
                 </div>
               </div>
             ) : (
@@ -74,13 +74,13 @@ export const OfflineStatusBanner: React.FC = () => {
                     <WifiOff className="w-4 h-4" />
                   </div>
                   <div className="font-mono text-[10px]">
-                    <span className="font-bold text-red-400 block uppercase tracking-wider">//_WARNING: UNREACHABLE_NODE_DETECTION</span>
-                    <span className="text-red-500/80 uppercase">SYSTEM IS RUNNING IN OFFLINE ISOLATION_MODE. CHECK ENVIRONMENT ACCESS INTERFACE.</span>
+                    <span className="font-bold text-red-400 block uppercase tracking-wider">WARNING: UNREACHABLE NODE DETECTION</span>
+                    <span className="text-red-500/80 uppercase">SYSTEM IS RUNNING IN OFFLINE ISOLATION MODE. CHECK ENVIRONMENT ACCESS INTERFACE.</span>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 shrink-0 font-mono text-[8px] px-2 py-0.5 rounded bg-red-950/80 border border-red-500/20 text-red-400">
                   <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-ping" />
-                  <span>ISOLATED_CACHED</span>
+                  <span>ISOLATED CACHED</span>
                 </div>
               </div>
             )}
