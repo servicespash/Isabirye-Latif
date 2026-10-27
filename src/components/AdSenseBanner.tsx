@@ -20,23 +20,54 @@ export const AdSenseBanner: React.FC<AdSenseBannerProps> = ({
   label = 'Monetization Portal'
 }) => {
   const adRef = useRef<HTMLModElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const pushedRef = useRef(false);
 
   useEffect(() => {
     if (pushedRef.current) return;
-    try {
-      if (typeof window !== 'undefined') {
-        // @ts-expect-error adsbygoogle is injected by AdSense script
-        (window.adsbygoogle = window.adsbygoogle || []).push({});
-        pushedRef.current = true;
+
+    const checkWidthAndPush = () => {
+      if (pushedRef.current) return;
+      const width = containerRef.current?.offsetWidth || adRef.current?.offsetWidth || 0;
+      if (width > 0) {
+        try {
+          if (typeof window !== 'undefined') {
+            // @ts-expect-error adsbygoogle is injected by AdSense script
+            (window.adsbygoogle = window.adsbygoogle || []).push({});
+            pushedRef.current = true;
+          }
+        } catch (err) {
+          console.warn('AdSense push error:', err);
+        }
       }
-    } catch (err) {
-      console.warn('AdSense push error:', err);
+    };
+
+    // Try after a short delay to allow layout
+    const timer = setTimeout(checkWidthAndPush, 300);
+
+    // Also use ResizeObserver if available
+    let observer: ResizeObserver | null = null;
+    if (typeof ResizeObserver !== 'undefined' && containerRef.current) {
+      observer = new ResizeObserver((entries) => {
+        for (const entry of entries) {
+          if (entry.contentRect.width > 0 && !pushedRef.current) {
+            checkWidthAndPush();
+          }
+        }
+      });
+      observer.observe(containerRef.current);
     }
+
+    return () => {
+      clearTimeout(timer);
+      if (observer && containerRef.current) {
+        observer.unobserve(containerRef.current);
+      }
+    };
   }, []);
 
   return (
-    <div className={`my-4 p-3 bg-[var(--color-bg-secondary)]/30 border border-[var(--color-border)] rounded-xl overflow-hidden text-center relative adsbygoogle-no-auto-ads ${className}`} style={style}>
+    <div ref={containerRef} className={`my-4 p-3 bg-[var(--color-bg-secondary)]/30 border border-[var(--color-border)] rounded-xl overflow-hidden text-center relative adsbygoogle-no-auto-ads ${className}`} style={style}>
       <div className="text-[8px] font-mono tracking-widest text-[var(--color-text-secondary)] mb-2 uppercase opacity-60">
         {label}
       </div>
