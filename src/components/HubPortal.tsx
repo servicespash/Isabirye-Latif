@@ -10,7 +10,7 @@ export const HubPortal: React.FC = () => {
       
       {/* PBL TRACKER */}
       <section className="col-span-12 lg:col-span-7 p-6 rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-primary)]/10 backdrop-blur-md">
-        <h2 className="text-lg font-black uppercase tracking-widest mb-4">// ACTIVE_PROJECTS</h2>
+        <h2 className="text-lg font-sans font-bold uppercase tracking-tight mb-4">Active Projects</h2>
         <div className="space-y-3">
           {projects.map(p => (
             <div key={p.id} className="p-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-secondary)]/50">
@@ -36,7 +36,7 @@ export const HubPortal: React.FC = () => {
 
       {/* AI CHAT MONITOR */}
       <section className="col-span-12 lg:col-span-5 p-6 rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-primary)]/10 backdrop-blur-md flex flex-col h-[400px]">
-        <h2 className="text-lg font-black uppercase tracking-widest mb-4">// AI_TUTOR_MONITOR</h2>
+        <h2 className="text-lg font-sans font-bold uppercase tracking-tight mb-4">AI Tutor Monitor</h2>
         <div className="flex-1 overflow-y-auto space-y-2 mb-3">
           {chatMessages.map(m => (
             <div key={m.id} className={`p-2 rounded-lg text-[11px] ${m.sender === 'student' ? 'bg-[var(--color-accent)]/20 ml-auto' : 'bg-white/10'}`}>

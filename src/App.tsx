@@ -13,6 +13,7 @@ import { useAnalytics } from './hooks/useAnalytics';
 import { useLongPress } from './hooks/useLongPress';
 import { useAppContext } from './hooks/useAppContext';
 import { CymaticLoader } from './components/CymaticLoader';
+import TemplatePageView from './pages/TemplatePageView';
 
 // Sovereign Additions
 import { ScrollProgressBar } from './components/ScrollProgressBar';
@@ -253,6 +254,10 @@ const AnimatedRoutes = () => {
         <Route path="/showcase" element={<motion.div variants={pageVariants} initial="initial" animate="animate" exit="exit"><Showcase /></motion.div>} />
         <Route path="/showcase/:templateId" element={<motion.div variants={pageVariants} initial="initial" animate="animate" exit="exit"><TemplateBrowserWrapper /></motion.div>} />
         <Route path="/template/:templateId" element={<motion.div variants={pageVariants} initial="initial" animate="animate" exit="exit"><TemplateBrowserWrapper /></motion.div>} />
+        <Route path="/template1" element={<TemplatePageView />} />
+        <Route path="/template2" element={<TemplatePageView />} />
+        <Route path="/template3" element={<TemplatePageView />} />
+        <Route path="/template4" element={<TemplatePageView />} />
         <Route path="/resonance" element={<motion.div variants={pageVariants} initial="initial" animate="animate" exit="exit"><Resonance /></motion.div>} />
         <Route path="/creative" element={<motion.div variants={pageVariants} initial="initial" animate="animate" exit="exit"><Creative /></motion.div>} />
         <Route path="/creatives" element={<motion.div variants={pageVariants} initial="initial" animate="animate" exit="exit"><Creatives /></motion.div>} />

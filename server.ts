@@ -63,6 +63,13 @@ app.get('/sitemap.xml', (c) => {
   return c.body(sitemap);
 });
 
+// ads.txt route
+app.get('/ads.txt', (c) => {
+  const adsTxt = 'google.com, pub-6513032451507520, DIRECT, f08c47fec0942fa0';
+  c.header('Content-Type', 'text/plain');
+  return c.text(adsTxt);
+});
+
 // Download route
 app.get('/api/v1/download', async (c) => {
   const appType = c.req.query('appType');

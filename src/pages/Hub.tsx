@@ -5,7 +5,7 @@ export const Hub = () => {
   return (
     <CymaticLayout>
       <div className="w-full">
-        <h1 className="text-3xl font-black uppercase tracking-tighter mb-8">// CYMATIC_HUB: OPERATIONAL_DASHBOARD</h1>
+        <h1 className="text-3xl font-sans font-black uppercase tracking-tight mb-8">Cymatic Hub: Operational Dashboard</h1>
         <HubPortal />
       </div>
     </CymaticLayout>

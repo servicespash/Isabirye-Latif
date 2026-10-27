@@ -25,11 +25,11 @@ export const GatewayCard: React.FC<GatewayCardProps> = ({
         <div className="space-y-3">
           <p className="text-sm font-sans italic text-[var(--color-text-secondary)]">"{narrative}"</p>
           <div className="border-t border-[var(--color-border)] pt-4 space-y-2">
-            <p className="text-xs font-mono uppercase text-[var(--color-accent)]">// FUNCTION</p>
+            <p className="text-xs font-sans font-semibold uppercase text-[var(--color-accent)] tracking-wide">Function</p>
             <p className="text-sm text-[var(--color-text-primary)]">{functionality}</p>
           </div>
           <div className="pt-2 space-y-2">
-            <p className="text-xs font-mono uppercase text-[var(--color-accent)]">// INTENT</p>
+            <p className="text-xs font-sans font-semibold uppercase text-[var(--color-accent)] tracking-wide">Intent</p>
             <p className="text-sm text-[var(--color-text-secondary)]">{intent}</p>
           </div>
         </div>

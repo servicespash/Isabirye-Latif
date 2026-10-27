@@ -188,7 +188,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, idx }) => {
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-neutral-800 bg-neutral-900/50 hover:border-[var(--color-accent)] hover:bg-[var(--color-accent)]/10 text-[9px] font-mono font-bold uppercase tracking-widest text-[var(--color-text-secondary)] hover:text-white transition-all duration-300 pointer-events-auto"
             >
               <Share2 className="w-3 h-3 text-[var(--color-accent)]" />
-              <span>//_SHARE</span>
+              <span>Share</span>
             </button>
 
             <AnimatePresence>
@@ -269,12 +269,12 @@ export const Projects = () => {
       <div className="space-y-12 pb-16">
         {/* Page Title & Intro */}
         <div className="border-b-2 border-[var(--color-border)] pb-8 space-y-4">
-          <div className="flex items-center gap-2 text-xs font-mono text-[var(--color-accent)]">
+          <div className="flex items-center gap-2 text-xs font-sans font-semibold text-[var(--color-accent)]">
             <Briefcase className="w-4 h-4 animate-pulse" />
-            <span>// PIPELINE_CATALOGUE_LOADED</span>
+            <span>Active Pipeline Catalogue</span>
           </div>
-          <h1 className="text-3xl md:text-5xl font-black tracking-tighter text-[var(--color-text-primary)] uppercase">
-            // 02_PROJECTS: THE_BUILDER
+          <h1 className="text-3xl md:text-5xl font-sans font-black tracking-tight text-[var(--color-text-primary)] uppercase">
+            Projects & Architecture
           </h1>
           <p className="text-sm md:text-base italic font-serif text-[var(--color-accent)] max-w-3xl">
             "A comprehensive analysis of technical architectures, modular packages, and interactive tools built for scaling production digital ecosystems. For more detailed suggestions on optimizing the website, you can explore the recommendations on Othware Uganda.page on Cymatic Study, a platform created by solo architect and resonance researcher Isabirye Latif (Latty Adams)."

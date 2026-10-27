@@ -228,21 +228,21 @@ export const Resonance = () => {
               <div className="mt-4 flex flex-wrap gap-2 justify-end">
                 <button
                   onClick={() => setIsSimulating(!isSimulating)}
-                  className={`px-3 py-1 text-[9px] font-mono rounded uppercase border transition-all ${
+                  className={`px-3 py-1 text-xs font-sans font-semibold rounded uppercase border transition-all ${
                     isSimulating 
                       ? 'border-[#FDE047]/50 text-[#FDE047] bg-[#FDE047]/10' 
                       : 'border-slate-600 text-slate-400 hover:border-slate-500'
                   }`}
                 >
-                  {isSimulating ? '//_PAUSE_SIMULATION' : '//_START_SIMULATION'}
+                  {isSimulating ? 'Pause Simulation' : 'Start Simulation'}
                 </button>
               </div>
             </section>
 
             {/* SYNC BOARD DETAILS */}
             <section className="border border-[var(--color-border)] bg-white/[0.01] p-6 rounded-2xl">
-              <h3 className="text-xs font-mono font-bold text-[var(--color-accent)] tracking-widest mb-6 uppercase">
-                // SYSTEM_ORCHESTRATION_FEATURES
+              <h3 className="text-xs font-sans font-bold text-[var(--color-accent)] tracking-wider mb-6 uppercase">
+                System Orchestration Features
               </h3>
               
               <div className="grid md:grid-cols-3 gap-6">
@@ -287,8 +287,8 @@ export const Resonance = () => {
               <div className="absolute -right-16 -bottom-16 w-40 h-40 rounded-full bg-[var(--color-accent)]/10 blur-3xl pointer-events-none"></div>
               
               <div>
-                <h3 className="text-sm font-mono font-bold text-[var(--color-accent)] tracking-widest block mb-4 uppercase flex items-center gap-2">
-                  <Shield className="w-4 h-4" /> // SYSTEM_AUTH_GATEWAY
+                <h3 className="text-sm font-sans font-bold text-[var(--color-accent)] tracking-wide block mb-4 uppercase flex items-center gap-2">
+                  <Shield className="w-4 h-4" /> System Authentication Gateway
                 </h3>
                 <div className="p-4 bg-white/5 rounded-2xl border border-[var(--color-border)]/20 font-mono text-[10px] space-y-2">
                   <div className="flex justify-between items-center border-b border-white/5 pb-2">
@@ -306,8 +306,8 @@ export const Resonance = () => {
               </div>
 
               <div>
-                <h3 className="text-xs font-mono font-bold text-white tracking-widest block mb-4 uppercase flex items-center gap-2">
-                  <Activity className="w-4 h-4 text-[var(--color-accent)]" /> // ATTENDANCE_PULSE_REGISTRY
+                <h3 className="text-xs font-sans font-bold text-white tracking-wide block mb-4 uppercase flex items-center gap-2">
+                  <Activity className="w-4 h-4 text-[var(--color-accent)]" /> Attendance Pulse Registry
                 </h3>
                 <div className="h-24 w-full">
                   <ResponsiveContainer width="100%" height="100%">
@@ -325,9 +325,9 @@ export const Resonance = () => {
                   href="https://resonance.cymatichub.xyz"
                   target="_blank"
                   rel="noreferrer"
-                  className="w-full group px-6 py-4 rounded-2xl border-2 border-[var(--color-accent)] bg-[var(--color-accent)] text-black font-mono font-bold uppercase text-xs tracking-wider flex items-center justify-between hover:bg-transparent hover:text-[var(--color-accent)] transition-all duration-300 text-center shadow-[0_0_20px_rgba(var(--color-accent-rgb),0.2)] hover:shadow-[0_0_30px_rgba(var(--color-accent-rgb),0.4)]"
+                  className="w-full group px-6 py-4 rounded-2xl border-2 border-[var(--color-accent)] bg-[var(--color-accent)] text-black font-sans font-bold uppercase text-xs tracking-wider flex items-center justify-between hover:bg-transparent hover:text-[var(--color-accent)] transition-all duration-300 text-center shadow-[0_0_20px_rgba(var(--color-accent-rgb),0.2)] hover:shadow-[0_0_30px_rgba(var(--color-accent-rgb),0.4)]"
                 >
-                  <span>// ACCESS_REGISTRY_CORE</span>
+                  <span>Access Registry Core</span>
                   <ExternalLink className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                 </a>
 
@@ -336,9 +336,9 @@ export const Resonance = () => {
                   href="https://github.com/IsabiryeLatif/cymatic-evolution/releases"
                   target="_blank"
                   rel="noreferrer"
-                  className="w-full group px-6 py-4 rounded-2xl border border-[var(--color-border)] bg-white/5 text-[var(--color-text-primary)] font-mono font-bold uppercase text-xs tracking-wider flex items-center justify-between hover:border-[var(--color-accent)] hover:bg-[var(--color-accent)]/5 transition-all duration-300 text-center"
+                  className="w-full group px-6 py-4 rounded-2xl border border-[var(--color-border)] bg-white/5 text-[var(--color-text-primary)] font-sans font-bold uppercase text-xs tracking-wider flex items-center justify-between hover:border-[var(--color-accent)] hover:bg-[var(--color-accent)]/5 transition-all duration-300 text-center"
                 >
-                  <span>// ADMIN_SYNC_CONSOLE</span>
+                  <span>Admin Sync Console</span>
                   <Download className="w-4 h-4 group-hover:translate-y-1 transition-transform text-[var(--color-accent)]" />
                 </a>
               </div>

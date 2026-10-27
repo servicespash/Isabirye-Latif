@@ -12,12 +12,12 @@ interface AdSenseBannerProps {
 
 export const AdSenseBanner: React.FC<AdSenseBannerProps> = ({
   client = 'ca-pub-6513032451507520',
-  slot = '1234567890',
+  slot = '8353928812',
   format = 'auto',
   layoutKey,
   className = '',
   style = {},
-  label = '//_MONETIZATION_NODE_ADSENSE'
+  label = 'Monetization Portal'
 }) => {
   const adRef = useRef<HTMLModElement>(null);
   const pushedRef = useRef(false);

@@ -24691,6 +24691,11 @@ app.get("/sitemap.xml", (c2) => {
   c2.header("Content-Type", "application/xml");
   return c2.body(sitemap);
 });
+app.get("/ads.txt", (c2) => {
+  const adsTxt = "google.com, pub-6513032451507520, DIRECT, f08c47fec0942fa0";
+  c2.header("Content-Type", "text/plain");
+  return c2.text(adsTxt);
+});
 app.get("/api/v1/download", async (c2) => {
   const appType = c2.req.query("appType");
   const version3 = c2.req.query("version");

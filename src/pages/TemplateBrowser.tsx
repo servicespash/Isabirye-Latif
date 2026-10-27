@@ -3,12 +3,13 @@ import { collection, addDoc } from 'firebase/firestore';
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { CymaticLayout } from '../components/CymaticLayout';
-import { Monitor, Smartphone, Tablet, ExternalLink, ChevronLeft, LayoutGrid, Star, Copy, ShieldCheck, RotateCcw, Maximize2 } from 'lucide-react';
+import { Monitor, Smartphone, Tablet, ExternalLink, ChevronLeft, Copy, ShieldCheck, RotateCcw, Maximize2, LayoutGrid, Star } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
-import { motion, AnimatePresence } from 'motion/react';
 import templatesData from '../data/templates.json';
 import { useAppContext } from '../hooks/useAppContext';
 import { AdSenseBanner } from '../components/AdSenseBanner';
+import { AetherAcademyTemplate } from '../components/templates/AetherAcademyTemplate';
+import { ApexVentureTemplate } from '../components/templates/ApexVentureTemplate';
 
 type DeviceType = 'desktop' | 'tablet' | 'mobile';
 
@@ -41,32 +42,15 @@ const getSystemDeviceKind = (): DeviceType => {
   return 'desktop';
 };
 
-const getDeviceStyles = (currentDevice: DeviceType) => {
-  if (typeof window !== 'undefined' && window.innerWidth < 768) {
-    return 'w-full h-full';
-  }
-  switch (currentDevice) {
-    case 'desktop':
-      return 'w-full h-full rounded-xl border border-slate-800 shadow-2xl';
-    case 'tablet':
-      return 'w-[768px] h-[90vh] max-h-[900px] rounded-2xl border-4 border-slate-700 shadow-2xl';
-    case 'mobile':
-      return 'w-[375px] h-[80vh] max-h-[750px] rounded-3xl border-4 border-slate-700 shadow-2xl';
-    default:
-      return 'w-full h-full';
-  }
-};
-
 export const TemplateBrowser: React.FC = () => {
   const { templateId } = useParams<{ templateId: string }>();
   const navigate = useNavigate();
   const { logPageView } = useAppContext();
   const [currentDevice, setCurrentDevice] = useState<DeviceType>(getSystemDeviceKind);
   const [isManualOverride, setIsManualOverride] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const [, setIsLoading] = useState(true);
   const [copied, setCopied] = useState(false);
-  const [key, setKey] = useState(0);
+  const [, setKey] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
   
   const activeTemplate = templates.find(t => t.id === templateId);
@@ -269,57 +253,26 @@ export const TemplateBrowser: React.FC = () => {
           </div>
         </header>
 
-        {/* Main Simulation Workspace */}
-        <main className="flex-grow flex items-center justify-center relative overflow-hidden bg-[radial-gradient(circle_at_center,#141C31_0%,#090D1A_100%)] p-4 md:p-8">
-          <div className="w-full h-full flex flex-col items-center justify-center overflow-auto">
-            <AnimatePresence mode="wait">
-              <motion.div 
-                key={`${activeTemplate.id}-${currentDevice}-${key}`}
-                initial={{ opacity: 0, scale: 0.98 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.98 }}
-                transition={{ duration: 0.25 }}
-                className={`bg-white overflow-hidden flex flex-col relative shadow-2xl ${getDeviceStyles(currentDevice)}`}
+        {/* Main Immersive Full-Screen Native Component Workspace */}
+        <main className="flex-grow flex flex-col relative overflow-y-auto bg-white p-0">
+          {activeTemplate.id === 'template1' ? (
+            <AetherAcademyTemplate />
+          ) : activeTemplate.id === 'template2' ? (
+            <ApexVentureTemplate />
+          ) : (
+            <div className="min-h-[80vh] flex flex-col items-center justify-center p-12 bg-slate-900 text-white space-y-6">
+              <h2 className="text-4xl font-black uppercase tracking-tight">{activeTemplate.title}</h2>
+              <p className="text-slate-400 text-center max-w-xl text-base">{activeTemplate.description}</p>
+              <a 
+                href={activeTemplate.path} 
+                target="_blank" 
+                rel="noreferrer" 
+                className="px-8 py-4 bg-blue-600 text-white rounded-2xl font-bold uppercase tracking-wider text-xs hover:bg-blue-500 transition-all shadow-xl shadow-blue-600/30 flex items-center gap-2"
               >
-                {/* Simulated macOS / Browser Chrome Header for non-desktop */}
-                {currentDevice !== 'desktop' && (
-                  <div className="h-9 bg-slate-900 border-b border-slate-800 px-4 flex items-center justify-between shrink-0">
-                    <div className="flex items-center gap-1.5">
-                      <span className="w-2.5 h-2.5 rounded-full bg-rose-500"></span>
-                      <span className="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
-                      <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
-                    </div>
-                    <div className="bg-slate-800/80 rounded-md text-[10px] text-slate-300 py-1 px-4 text-center font-mono truncate border border-slate-700/50">
-                      latty-studio.dev/{activeTemplate.id} ({currentDevice})
-                    </div>
-                    <div className="w-10"></div>
-                  </div>
-                )}
-
-                <div className="w-full h-full flex flex-col relative flex-grow bg-white">
-                  {isLoading && (
-                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#090D1A] z-20 gap-3">
-                      <div className="w-8 h-8 rounded-full border-2 border-blue-500 border-t-transparent animate-spin"></div>
-                      <span className="text-xs font-mono text-slate-400 uppercase tracking-widest animate-pulse">Rendering Blueprint...</span>
-                    </div>
-                  )}
-                  {error && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-[#090D1A] z-20">
-                      <div className="text-xs font-mono text-rose-400 uppercase tracking-widest">Failed to load asset bundle.</div>
-                    </div>
-                  )}
-                  <iframe 
-                    key={key}
-                    src={activeTemplate.path} 
-                    className={`w-full h-full border-none bg-white flex-grow ${isLoading || error ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}
-                    title={`Preview of ${activeTemplate.title}`}
-                    onLoad={() => setIsLoading(false)}
-                    onError={() => { setIsLoading(false); setError(true); }}
-                  />
-                </div>
-              </motion.div>
-            </AnimatePresence>
-          </div>
+                Launch Professional Self Page ↗
+              </a>
+            </div>
+          )}
         </main>
       </div>
 

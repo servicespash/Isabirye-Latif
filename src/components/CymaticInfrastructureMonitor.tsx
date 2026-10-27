@@ -12,16 +12,17 @@ export const CymaticInfrastructureMonitor: React.FC<{ subdomain: string }> = ({ 
     return value > 60 && value < 100 ? 'text-green-500' : 'text-yellow-500';
   };
 
-  if (loading) return <div className="p-4 text-xs font-mono text-gray-500">// Loading_Infrastructure_Telemetry...</div>;
-  if (!metrics) return <div className="p-4 text-xs font-mono text-red-500">// [ERROR_TELEMETRY_UNREACHABLE]</div>;
+  if (loading) return <div className="p-4 text-xs font-sans text-gray-400">Loading infrastructure telemetry...</div>;
+  if (!metrics) return <div className="p-4 text-xs font-sans text-red-400">[Telemetry Unreachable]</div>;
 
   const chartData = metrics.latency.map((val, idx) => ({ name: idx, value: val }));
 
   return (
     <div className="p-6 rounded-3xl border border-[var(--color-border)] bg-[var(--color-bg-secondary)]/50 backdrop-blur-md space-y-6">
       <div className="flex items-center justify-between">
-        <h3 className="text-sm font-bold uppercase tracking-widest text-[var(--color-text-primary)]">
-          // Infrastructure_Monitor: {subdomain}
+        <h3 className="text-sm font-sans font-bold uppercase tracking-wide text-[var(--color-text-primary)] flex items-center gap-2">
+          <span className={`w-2 h-2 rounded-full ${metrics.isOnline ? 'bg-emerald-500 animate-pulse' : 'bg-red-500'}`} />
+          Infrastructure Monitor: {subdomain}
         </h3>
         {metrics.latency[metrics.latency.length - 1] > 200 && <ShieldAlert className="w-5 h-5 text-red-500" />}
       </div>

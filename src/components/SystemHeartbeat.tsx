@@ -28,7 +28,7 @@ export const SystemHeartbeat: React.FC = () => {
   return (
     <div className="glass-card p-6 w-full max-w-sm rounded-2xl">
       <div className="flex items-center justify-between mb-6">
-        <h3 className="font-mono text-xs font-bold uppercase tracking-widest text-[var(--color-accent)]">// SYSTEM_HEARTBEAT</h3>
+        <h3 className="font-sans text-xs font-bold uppercase tracking-widest text-[var(--color-accent)]">System Heartbeat</h3>
         <div className="flex items-center gap-2">
           <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
           <span className="font-mono text-[9px] uppercase text-[var(--color-text-secondary)]">Operational</span>

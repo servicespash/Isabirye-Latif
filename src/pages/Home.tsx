@@ -41,23 +41,23 @@ export default function Home() {
         {/* HERO: THE ARCHITECT'S MANIFESTO */}
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="font-mono text-[var(--color-accent)] text-[10px] tracking-[0.4em] uppercase">
-              // CYMATIC_ENGINES_EVOLUTION_IDENTITY_VERIFIED
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="font-sans text-[var(--color-accent)] text-xs font-semibold tracking-wider uppercase">
+              Cymatic Engines Evolution Identity Verified
             </motion.div>
-            <h1 className="font-serif text-6xl font-bold tracking-tighter leading-[0.9]">
+            <h1 className="font-serif text-3xl md:text-4xl font-bold tracking-tight leading-tight">
               Isabirye Latif<br/>
-              <span className="italic text-[var(--color-text-secondary)]">Solo Architect of Evolution.</span>
+              <span className="italic font-normal text-[var(--color-text-secondary)] text-2xl md:text-3xl">Solo Architect of Evolution.</span>
             </h1>
             <div className="space-y-6 border-l-2 border-[var(--color-accent)] pl-6">
               <p className="font-sans text-sm md:text-base text-[var(--color-text-secondary)] leading-relaxed max-w-lg">
                 Engineering the Cymatic Engines Evolution ecosystem. I orchestrate purposeful digital environments that transform complex operational challenges into unified, intentional realities through uncompromising technical execution and architectural resilience.
               </p>
               <div className="flex flex-wrap gap-4">
-                <Link to="/study" className="px-6 py-3 bg-[var(--color-accent)] text-black rounded-xl font-bold uppercase tracking-widest text-[10px] hover:opacity-90 transition-all shadow-[0_0_20px_rgba(var(--color-accent-rgb),0.3)]">
-                  // Access_Cymatic_Study
+                <Link to="/study" className="px-6 py-3 bg-[var(--color-accent)] text-black rounded-xl font-bold uppercase tracking-wider text-xs hover:opacity-90 transition-all shadow-md">
+                  Access Cymatic Study
                 </Link>
-                <Link to="/resonance" className="px-6 py-3 bg-white/5 border border-[var(--color-border)] rounded-xl font-bold uppercase tracking-widest text-[10px] hover:border-[var(--color-accent)] transition-all">
-                  // Explore_Cymatic_Resonance
+                <Link to="/resonance" className="px-6 py-3 bg-white/5 border border-[var(--color-border)] rounded-xl font-bold uppercase tracking-wider text-xs hover:border-[var(--color-accent)] transition-all">
+                  Explore Cymatic Resonance
                 </Link>
               </div>
             </div>

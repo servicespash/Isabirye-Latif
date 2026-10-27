@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { PopularityDashboard } from '../components/PopularityDashboard';
 import { CymaticLayout } from '../components/CymaticLayout';
 import { Monitor, Smartphone, Tablet, ExternalLink, X, LayoutGrid, Filter, Search, Copy, Heart } from 'lucide-react';
@@ -217,6 +218,7 @@ const SimulatorModal: React.FC<SimulatorModalProps> = ({ activeTemplateId, setAc
 };
 
 export const Showcase: React.FC = () => {
+  const navigate = useNavigate();
   const { 
     selectedCategory, 
     setSelectedCategory, 
@@ -281,9 +283,9 @@ export const Showcase: React.FC = () => {
         
         {/* Header Section */}
         <div className="space-y-4">
-          <h1 className="text-3xl font-mono font-bold text-white flex items-center gap-3">
+          <h1 className="text-3xl font-sans font-bold text-white flex items-center gap-3">
             <LayoutGrid className="text-blue-500 w-8 h-8" />
-            //_TEMPLATE_SHOWCASE
+            Template Showcase
           </h1>
           <div className="flex gap-4">
              <div className="flex-grow">
@@ -512,11 +514,11 @@ export const Showcase: React.FC = () => {
                   {/* Footer Action */}
                   <div className="mt-auto pt-4 flex justify-between items-center">
                     <button 
-                        onClick={() => setActiveTemplateId(template.id)}
-                        className="px-6 py-3 bg-blue-600 text-white font-mono font-bold text-sm rounded-xl shadow-xl shadow-blue-900/50 hover:bg-blue-500 hover:scale-105 transition-all flex items-center gap-2"
+                        onClick={() => navigate(`/${template.id}`)}
+                        className="px-6 py-3 bg-blue-600 text-white font-sans font-bold text-sm rounded-xl shadow-xl shadow-blue-900/50 hover:bg-blue-500 hover:scale-105 transition-all flex items-center gap-2"
                       >
-                        <Monitor className="w-4 h-4" />
-                        Simulator
+                        <ExternalLink className="w-4 h-4" />
+                        Open Full-Screen Page
                     </button>
                   </div>
                 </div>
