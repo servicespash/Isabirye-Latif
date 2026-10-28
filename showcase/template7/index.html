@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="IL Nature & Game Park Tours - Premier East African Safaris, Gorilla Trekking, and Wildlife Expeditions curated by Isabirye Latif.">
+    <meta name="keywords" content="IL Nature Tours, Isabirye Latif, Uganda Safaris, Game Park Tours, Gorilla Trekking Bwindi, Murchison Falls, Queen Elizabeth National Park, Eco Tourism, Cymatic Hub">
+    <meta name="author" content="Isabirye Latif (Latty Adams)">
+    <title>IL Game park and Nature Tours | Cymatic Hub Ecosystem for template7</title>
+    
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "TravelAgency",
+          "@id": "https://cymatichub.xyz/template/template7/#organization",
+          "name": "IL Game park and Nature Tours | Cymatic Hub Ecosystem for template7",
+          "url": "https://cymatichub.xyz/template/template7",
+          "logo": "https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=300&q=80",
+          "description": "Bespoke East African wildlife safaris, gorilla trekking, and conservation expeditions crafted with precision.",
+          "founder": {
+            "@type": "Person",
+            "name": "Isabirye Latif",
+            "jobTitle": "Solo Architect & Founder",
+            "alternateName": "Latty Adams"
+          },
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Kampala",
+            "addressCountry": "Uganda"
+          }
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://cymatichub.xyz/template/template7/#website",
+          "name": "IL Game park and Nature Tours | Cymatic Hub Ecosystem for template7",
+          "url": "https://cymatichub.xyz/template/template7",
+          "description": "Template 7 signature tour showcase for Cymatic Hub by Isabirye Latif."
+        }
+      ]
+    }
+    </script>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        safari: {
+                            forest: '#0F382C',
+                            deep: '#134E4A',
+                            amber: '#D97706',
+                            gold: '#F59E0B',
+                            sand: '#FDFBF7',
+                            earth: '#1C1917',
+                            bark: '#292524',
+                            sage: '#E6EFE9'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .page-view {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.4s ease-in-out;
+        }
+        .page-view.active {
+            display: block;
+            opacity: 1;
+        }
+        .text-gradient-amber {
+            background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .text-gradient-forest {
+            background: linear-gradient(135deg, #134E4A 0%, #0F382C 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero-pattern {
+            background-color: #0F382C;
+            background-image: radial-gradient(rgba(245, 158, 11, 0.12) 1px, transparent 0);
+            background-size: 24px 24px;
+        }
+    </style>
+</head>
+<body class="template-safari bg-safari-sand text-safari-earth antialiased font-sans flex flex-col min-h-screen selection:bg-safari-amber selection:text-white">
+
+    <!-- Global Navigation Header -->
+    <header class="fixed top-0 left-0 w-full z-50 bg-white/95 backdrop-blur-md border-b border-safari-sage/60 shadow-sm">
+        <div class="max-w-7xl mx-auto px-6 h-20 grid grid-cols-2 md:grid-cols-[1fr_auto_1fr] items-center gap-4">
+            
+            <!-- Brand Logo (IL Monogram) -->
+            <div class="flex items-center justify-start overflow-hidden">
+                <a href="#home" onclick="navigateTo('home')" class="flex items-center gap-3 group shrink-0">
+                    <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-safari-forest to-safari-deep flex items-center justify-center shadow-md border border-safari-amber/30 group-hover:scale-105 transition-transform duration-300">
+                        <span class="text-safari-gold font-serif font-extrabold text-xl tracking-tighter">IL</span>
+                    </div>
+                    <div class="flex flex-col hidden sm:flex">
+                        <span class="text-safari-forest font-extrabold text-lg tracking-wider leading-none">IL NATURE</span>
+                        <span class="text-safari-amber font-bold text-[10px] tracking-widest uppercase mt-0.5">& Game Park Tours</span>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- Desktop Dynamic Navigation Links -->
+            <nav class="hidden md:flex items-center justify-center gap-6 lg:gap-8">
+                <button onclick="navigateTo('home')" aria-label="Navigate to Home section" class="nav-link text-safari-earth/80 hover:text-safari-forest transition-colors text-xs lg:text-sm font-bold tracking-wide whitespace-nowrap py-2" id="nav-home">Home</button>
+                <button onclick="navigateTo('safaris')" aria-label="Navigate to Safaris & Packages section" class="nav-link text-safari-earth/80 hover:text-safari-forest transition-colors text-xs lg:text-sm font-bold tracking-wide whitespace-nowrap py-2" id="nav-safaris">Safaris & Packages</button>
+                <button onclick="navigateTo('expeditions')" aria-label="Navigate to Destinations section" class="nav-link text-safari-earth/80 hover:text-safari-forest transition-colors text-xs lg:text-sm font-bold tracking-wide whitespace-nowrap py-2" id="nav-expeditions">Game Parks</button>
+                <button onclick="navigateTo('origin')" aria-label="Navigate to Our Origin section" class="nav-link text-safari-earth/80 hover:text-safari-forest transition-colors text-xs lg:text-sm font-bold tracking-wide whitespace-nowrap py-2" id="nav-origin">Our Origin</button>
+                <button onclick="navigateTo('contact')" aria-label="Navigate to Contact section" class="nav-link text-safari-earth/80 hover:text-safari-forest transition-colors text-xs lg:text-sm font-bold tracking-wide whitespace-nowrap py-2" id="nav-contact">Contact</button>
+            </nav>
+
+            <!-- Call To Action Button -->
+            <div class="flex items-center justify-end gap-2 sm:gap-4">
+                <button onclick="navigateTo('contact')" aria-label="Book Expedition Now" class="hidden sm:inline-flex items-center justify-center px-5 lg:px-6 h-11 text-xs lg:text-sm font-bold text-white bg-safari-forest hover:bg-safari-deep rounded-xl transition-all duration-300 shadow-md shadow-safari-forest/20 border border-safari-amber/20 hover:shadow-lg">
+                    <i class="fa-solid fa-compass mr-2 text-safari-gold"></i> Book Expedition
+                </button>
+                <!-- Mobile Navigation Button -->
+                <button onclick="toggleMobileMenu()" aria-label="Toggle Mobile Menu" class="md:hidden w-10 h-10 flex items-center justify-center text-safari-forest focus:outline-none">
+                    <i id="menu-icon" class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Dynamic Navigation Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-safari-sage px-6 py-6 space-y-3 shadow-xl">
+            <button onclick="navigateTo('home'); toggleMobileMenu();" class="block w-full text-left py-2.5 text-base font-bold text-safari-forest border-b border-gray-100">Home</button>
+            <button onclick="navigateTo('safaris'); toggleMobileMenu();" class="block w-full text-left py-2.5 text-base font-bold text-safari-forest border-b border-gray-100">Safaris & Packages</button>
+            <button onclick="navigateTo('expeditions'); toggleMobileMenu();" class="block w-full text-left py-2.5 text-base font-bold text-safari-forest border-b border-gray-100">Game Parks</button>
+            <button onclick="navigateTo('origin'); toggleMobileMenu();" class="block w-full text-left py-2.5 text-base font-bold text-safari-forest border-b border-gray-100">Our Origin</button>
+            <button onclick="navigateTo('contact'); toggleMobileMenu();" class="block w-full text-left py-2.5 text-base font-bold text-safari-forest border-b border-gray-100">Contact</button>
+            <button onclick="navigateTo('contact'); toggleMobileMenu();" class="w-full text-center py-3.5 mt-2 text-base font-bold text-white bg-safari-amber hover:bg-safari-amber/90 rounded-xl shadow-md">Book Expedition</button>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINERS (Dynamic Page Views) -->
+    <main class="flex-grow pt-20">
+
+        <!-- PAGE 1: HOME -->
+        <section id="page-home" class="page-view active">
+            <!-- Hero Showcase -->
+            <div class="relative py-20 lg:py-32 hero-pattern text-white overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-r from-safari-forest/95 via-safari-forest/80 to-transparent z-0"></div>
+                <div class="max-w-7xl mx-auto px-6 relative z-10">
+                    <div class="grid lg:grid-cols-12 gap-12 items-center">
+                        <div class="lg:col-span-7 space-y-8 text-left">
+                            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-safari-amber/20 border border-safari-amber/40 text-safari-gold font-bold text-xs uppercase tracking-widest backdrop-blur-sm">
+                                <i class="fa-solid fa-tree"></i> Signature Safari Experience &bull; Template 7
+                            </div>
+                            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-serif font-bold text-white leading-[1.15] tracking-tight">
+                                Immersive Wilderness. <br><span class="text-gradient-amber font-extrabold">Unforgettable Safaris.</span>
+                            </h1>
+                            <p class="text-gray-200 text-lg leading-relaxed max-w-xl font-normal">
+                                Journey deep into East Africa's breathtaking game reserves. From silverback gorilla treks in Bwindi to thunderous falls and savannah drives in Murchison, we engineer lifetime wildlife encounters.
+                            </p>
+                            <div class="flex flex-wrap gap-4 pt-2">
+                                <button onclick="navigateTo('safaris')" class="px-8 py-4 bg-safari-amber hover:bg-amber-600 text-safari-bark font-extrabold rounded-xl transition-all shadow-lg shadow-safari-amber/30 flex items-center gap-2">
+                                    <span>Explore Safari Packages</span>
+                                    <i class="fa-solid fa-arrow-right text-xs"></i>
+                                </button>
+                                <button onclick="navigateTo('origin')" class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/30 backdrop-blur-md transition-all">
+                                    Meet The Founder
+                                </button>
+                            </div>
+                        </div>
+                        <div class="lg:col-span-5">
+                            <div class="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-safari-gold/40 bg-safari-forest group">
+                                <img src="https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=900&q=80" alt="African Lion Safari" class="w-full h-[440px] object-cover group-hover:scale-105 transition-transform duration-700">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                                <div class="absolute bottom-6 left-6 right-6 p-4 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 text-white">
+                                    <p class="text-xs uppercase tracking-widest text-safari-gold font-bold">Featured Destination</p>
+                                    <p class="text-lg font-serif font-bold">Queen Elizabeth National Park</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fast Stats Section -->
+            <div class="py-12 bg-safari-forest text-white border-y border-safari-amber/20">
+                <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                    <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+                        <p class="text-4xl font-extrabold text-safari-gold font-serif">100%</p>
+                        <p class="text-xs uppercase tracking-widest text-gray-300 mt-2 font-semibold">Tailored Expeditions</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+                        <p class="text-4xl font-extrabold text-safari-gold font-serif">15+</p>
+                        <p class="text-xs uppercase tracking-widest text-gray-300 mt-2 font-semibold">Protected Game Parks</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+                        <p class="text-4xl font-extrabold text-safari-gold font-serif">4.9 &#9733;</p>
+                        <p class="text-xs uppercase tracking-widest text-gray-300 mt-2 font-semibold">Traveler Review Score</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+                        <p class="text-4xl font-extrabold text-safari-gold font-serif">10+ Yrs</p>
+                        <p class="text-xs uppercase tracking-widest text-gray-300 mt-2 font-semibold">Architectural Precision</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Highlights / Pillars -->
+            <div class="py-20 bg-safari-sand">
+                <div class="max-w-7xl mx-auto px-6">
+                    <div class="text-center max-w-2xl mx-auto mb-16 space-y-4">
+                        <span class="text-safari-amber font-extrabold text-xs uppercase tracking-widest">Why Travel With IL Nature</span>
+                        <h2 class="text-3xl sm:text-4xl font-serif font-bold text-safari-forest">The Signature Safari Advantage</h2>
+                        <p class="text-safari-earth/70">Designed by Isabirye Latif to balance thrilling wildlife discovery with sustainable luxury and safety.</p>
+                    </div>
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <article class="p-8 rounded-2xl bg-white border border-safari-sage shadow-sm hover:shadow-xl transition-all duration-300 group">
+                            <div class="w-14 h-14 rounded-2xl bg-safari-sage flex items-center justify-center text-safari-forest mb-6 group-hover:bg-safari-forest group-hover:text-safari-gold transition-colors duration-300">
+                                <i class="fa-solid fa-binoculars text-2xl"></i>
+                            </div>
+                            <h3 class="text-xl font-serif font-bold text-safari-forest mb-3">Expert Native Guides</h3>
+                            <p class="text-safari-earth/70 leading-relaxed text-sm">Seasoned trackers with decades of behavioral insight into mountain gorillas, tree-climbing lions, and rare avian species.</p>
+                        </article>
+
+                        <article class="p-8 rounded-2xl bg-white border border-safari-sage shadow-sm hover:shadow-xl transition-all duration-300 group">
+                            <div class="w-14 h-14 rounded-2xl bg-safari-sage flex items-center justify-center text-safari-forest mb-6 group-hover:bg-safari-forest group-hover:text-safari-gold transition-colors duration-300">
+                                <i class="fa-solid fa-campground text-2xl"></i>
+                            </div>
+                            <h3 class="text-xl font-serif font-bold text-safari-forest mb-3">Eco Luxury Lodging</h3>
+                            <p class="text-safari-earth/70 leading-relaxed text-sm">Hand-selected boutique eco-lodges offering panoramic views over crater lakes, river valleys, and pristine savannahs.</p>
+                        </article>
+
+                        <article class="p-8 rounded-2xl bg-white border border-safari-sage shadow-sm hover:shadow-xl transition-all duration-300 group">
+                            <div class="w-14 h-14 rounded-2xl bg-safari-sage flex items-center justify-center text-safari-forest mb-6 group-hover:bg-safari-forest group-hover:text-safari-gold transition-colors duration-300">
+                                <i class="fa-solid fa-shield-halved text-2xl"></i>
+                            </div>
+                            <h3 class="text-xl font-serif font-bold text-safari-forest mb-3">Conservation Focused</h3>
+                            <p class="text-safari-earth/70 leading-relaxed text-sm">Every booking directly funds habitat restoration, ranger anti-poaching units, and community empowerment projects.</p>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE 2: SAFARIS & PACKAGES -->
+        <section id="page-safaris" class="page-view">
+            <div class="py-20 bg-safari-sand">
+                <div class="max-w-7xl mx-auto px-6">
+                    <div class="text-center max-w-2xl mx-auto mb-16 space-y-4">
+                        <span class="text-safari-amber font-extrabold text-xs uppercase tracking-widest">Curated Itineraries</span>
+                        <h1 class="text-4xl font-serif font-bold text-safari-forest">Popular Safari Packages</h1>
+                        <p class="text-safari-earth/70">Explore our signature game park expeditions. Every package can be fully customized to your schedule.</p>
+                    </div>
+
+                    <!-- Safari Grid -->
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <!-- Card 1 -->
+                        <div class="bg-white rounded-2xl overflow-hidden shadow-md border border-safari-sage hover:shadow-2xl transition-all flex flex-col">
+                            <div class="h-60 overflow-hidden relative">
+                                <img src="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?auto=format&fit=crop&w=800&q=80" alt="Gorilla Trekking" class="w-full h-full object-cover">
+                                <span class="absolute top-4 left-4 bg-safari-forest text-safari-gold text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg shadow-sm">4 Days / 3 Nights</span>
+                                <span class="absolute top-4 right-4 bg-safari-amber text-white text-xs font-extrabold px-3 py-1.5 rounded-lg shadow-sm">$1,850 USD</span>
+                            </div>
+                            <div class="p-6 space-y-4 flex-grow flex flex-col justify-between">
+                                <div>
+                                    <h3 class="text-xl font-serif font-bold text-safari-forest mb-2">Bwindi Gorilla Expedition</h3>
+                                    <p class="text-safari-earth/70 text-sm leading-relaxed">Trek through mist-covered primeval rainforests for unforgettable close encounters with mountain gorilla families.</p>
+                                </div>
+                                <div class="pt-4 border-t border-gray-100 space-y-3">
+                                    <div class="flex items-center gap-4 text-xs font-semibold text-safari-forest">
+                                        <span><i class="fa-solid fa-location-dot text-safari-amber mr-1"></i> Bwindi Impenetrable</span>
+                                        <span><i class="fa-solid fa-person-hiking text-safari-amber mr-1"></i> Guided Trek</span>
+                                    </div>
+                                    <button onclick="navigateTo('contact')" class="w-full py-3 bg-safari-forest hover:bg-safari-deep text-white font-bold rounded-xl text-sm transition-colors">
+                                        Inquire About Booking
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 2 -->
+                        <div class="bg-white rounded-2xl overflow-hidden shadow-md border border-safari-sage hover:shadow-2xl transition-all flex flex-col">
+                            <div class="h-60 overflow-hidden relative">
+                                <img src="https://images.unsplash.com/photo-1534567153574-2b12153a87f0?auto=format&fit=crop&w=800&q=80" alt="Murchison Falls" class="w-full h-full object-cover">
+                                <span class="absolute top-4 left-4 bg-safari-forest text-safari-gold text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg shadow-sm">5 Days / 4 Nights</span>
+                                <span class="absolute top-4 right-4 bg-safari-amber text-white text-xs font-extrabold px-3 py-1.5 rounded-lg shadow-sm">$1,450 USD</span>
+                            </div>
+                            <div class="p-6 space-y-4 flex-grow flex flex-col justify-between">
+                                <div>
+                                    <h3 class="text-xl font-serif font-bold text-safari-forest mb-2">Murchison Falls Explorer</h3>
+                                    <p class="text-safari-earth/70 text-sm leading-relaxed">Nile River cruises, roaring waterfalls, elephants, giraffes, and game drives across northern savannah trails.</p>
+                                </div>
+                                <div class="pt-4 border-t border-gray-100 space-y-3">
+                                    <div class="flex items-center gap-4 text-xs font-semibold text-safari-forest">
+                                        <span><i class="fa-solid fa-water text-safari-amber mr-1"></i> River Nile Cruise</span>
+                                        <span><i class="fa-solid fa-car text-safari-amber mr-1"></i> 4x4 Safari</span>
+                                    </div>
+                                    <button onclick="navigateTo('contact')" class="w-full py-3 bg-safari-forest hover:bg-safari-deep text-white font-bold rounded-xl text-sm transition-colors">
+                                        Inquire About Booking
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 3 -->
+                        <div class="bg-white rounded-2xl overflow-hidden shadow-md border border-safari-sage hover:shadow-2xl transition-all flex flex-col">
+                            <div class="h-60 overflow-hidden relative">
+                                <img src="https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=800&q=80" alt="Queen Elizabeth Park" class="w-full h-full object-cover">
+                                <span class="absolute top-4 left-4 bg-safari-forest text-safari-gold text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg shadow-sm">6 Days / 5 Nights</span>
+                                <span class="absolute top-4 right-4 bg-safari-amber text-white text-xs font-extrabold px-3 py-1.5 rounded-lg shadow-sm">$2,100 USD</span>
+                            </div>
+                            <div class="p-6 space-y-4 flex-grow flex flex-col justify-between">
+                                <div>
+                                    <h3 class="text-xl font-serif font-bold text-safari-forest mb-2">Queen Elizabeth & Ishasha</h3>
+                                    <p class="text-safari-earth/70 text-sm leading-relaxed">Tree-climbing lions in Ishasha, Kazinga Channel boat launch, and crater lake photography expeditions.</p>
+                                </div>
+                                <div class="pt-4 border-t border-gray-100 space-y-3">
+                                    <div class="flex items-center gap-4 text-xs font-semibold text-safari-forest">
+                                        <span><i class="fa-solid fa-ship text-safari-amber mr-1"></i> Kazinga Boat</span>
+                                        <span><i class="fa-solid fa-cat text-safari-amber mr-1"></i> Tree Lions</span>
+                                    </div>
+                                    <button onclick="navigateTo('contact')" class="w-full py-3 bg-safari-forest hover:bg-safari-deep text-white font-bold rounded-xl text-sm transition-colors">
+                                        Inquire About Booking
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE 3: EXPEDITIONS / GAME PARKS -->
+        <section id="page-expeditions" class="page-view">
+            <div class="py-20 bg-white">
+                <div class="max-w-7xl mx-auto px-6">
+                    <div class="text-center max-w-2xl mx-auto mb-16 space-y-4">
+                        <span class="text-safari-amber font-extrabold text-xs uppercase tracking-widest">Destinations Spotlight</span>
+                        <h1 class="text-4xl font-serif font-bold text-safari-forest">East Africa's Crown Jewels</h1>
+                        <p class="text-safari-earth/70">Discover the diverse sanctuaries where our custom expeditions operate.</p>
+                    </div>
+
+                    <div class="space-y-12">
+                        <!-- Feature Row 1 -->
+                        <div class="grid md:grid-cols-2 gap-8 items-center bg-safari-sand rounded-3xl p-8 border border-safari-sage">
+                            <div class="space-y-4">
+                                <span class="px-3 py-1 rounded-full bg-safari-amber/10 border border-safari-amber/30 text-safari-amber text-xs font-bold uppercase">UNESCO World Heritage</span>
+                                <h3 class="text-3xl font-serif font-bold text-safari-forest">Bwindi Impenetrable National Park</h3>
+                                <p class="text-safari-earth/70 text-sm leading-relaxed">
+                                    Home to nearly half of the world's remaining endangered mountain gorillas. Bwindi's ancient rainforest canopy covers steep ridges and valley floors teeming with biodiversity.
+                                </p>
+                                <ul class="space-y-2 text-xs font-semibold text-safari-forest">
+                                    <li><i class="fa-solid fa-check text-safari-amber mr-2"></i> Gorilla Habituation Experiences</li>
+                                    <li><i class="fa-solid fa-check text-safari-amber mr-2"></i> Batwa Cultural Forest Trails</li>
+                                </ul>
+                            </div>
+                            <div class="rounded-2xl overflow-hidden h-72 shadow-md">
+                                <img src="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?auto=format&fit=crop&w=800&q=80" alt="Bwindi Forest" class="w-full h-full object-cover">
+                            </div>
+                        </div>
+
+                        <!-- Feature Row 2 -->
+                        <div class="grid md:grid-cols-2 gap-8 items-center bg-safari-sand rounded-3xl p-8 border border-safari-sage">
+                            <div class="rounded-2xl overflow-hidden h-72 shadow-md order-2 md:order-1">
+                                <img src="https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=800&q=80" alt="Savannah Game Drive" class="w-full h-full object-cover">
+                            </div>
+                            <div class="space-y-4 order-1 md:order-2">
+                                <span class="px-3 py-1 rounded-full bg-safari-amber/10 border border-safari-amber/30 text-safari-amber text-xs font-bold uppercase">Big Five Haven</span>
+                                <h3 class="text-3xl font-serif font-bold text-safari-forest">Kidepo Valley & Murchison Basin</h3>
+                                <p class="text-safari-earth/70 text-sm leading-relaxed">
+                                    Raw African wilderness where dramatic savannas meet rocky outcrops. Observe vast herds of buffaloes, giraffes, elephants, cheetahs, and majestic lions.
+                                </p>
+                                <ul class="space-y-2 text-xs font-semibold text-safari-forest">
+                                    <li><i class="fa-solid fa-check text-safari-amber mr-2"></i> Private Night & Sunrise Game Drives</li>
+                                    <li><i class="fa-solid fa-check text-safari-amber mr-2"></i> Exclusive Wilderness Bush Dining</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE 4: ORIGIN (FOUNDER STORY) -->
+        <section id="page-origin" class="page-view">
+            <div class="py-20 bg-safari-sand">
+                <div class="max-w-7xl mx-auto px-6">
+                    <div class="grid lg:grid-cols-12 gap-12 items-center">
+                        <div class="lg:col-span-7 space-y-6">
+                            <span class="text-safari-amber font-extrabold text-xs uppercase tracking-widest">Our Founding Story</span>
+                            <h2 class="text-4xl font-serif font-bold text-safari-forest">Engineered by Nature. Built for Adventure.</h2>
+                            <p class="text-safari-earth/80 leading-relaxed">
+                                Founded by <strong>Isabirye Latif</strong> (Solo Architect & Tech Pioneer behind Cymatic Hub), <strong>IL Nature & Game Park Tours</strong> was born out of a profound passion for East Africa’s natural landscapes and biodiversity.
+                            </p>
+                            <p class="text-safari-earth/80 leading-relaxed">
+                                We combine architectural precision in itinerary planning with deep respect for wildlife conservation. Every trip is structured like a masterpiece—ensuring safety, seamless travel logistics, and authentic connection with local communities.
+                            </p>
+                            
+                            <!-- Founder Details Card -->
+                            <div class="pt-6 border-t border-safari-sage flex items-center gap-5">
+                                <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-safari-forest to-safari-deep flex items-center justify-center text-safari-gold font-serif font-extrabold text-2xl shadow-md border border-safari-amber/40">
+                                    IL
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-safari-forest text-lg">Isabirye Latif <span class="text-xs text-safari-amber font-normal">(Latty Adams)</span></h4>
+                                    <p class="text-xs text-safari-earth/60 font-medium">Solo Architect & Founder, Cymatic Hub Ecosystem</p>
+                                    <p class="text-xs text-safari-forest font-semibold mt-1"><i class="fa-solid fa-location-dot text-safari-amber mr-1"></i> Kampala, Uganda</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="lg:col-span-5 relative">
+                            <div class="aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-safari-forest">
+                                <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80" alt="Landscape" class="w-full h-full object-cover">
+                            </div>
+                            <div class="absolute -bottom-6 -left-6 bg-safari-forest text-white p-6 rounded-2xl shadow-xl max-w-xs border border-safari-amber/30">
+                                <p class="text-xs italic text-safari-sage">"Wilderness gives us perspective; thoughtful architecture makes it unforgettable."</p>
+                                <p class="text-xs font-bold text-safari-gold mt-2">&mdash; Isabirye Latif</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE 5: CONTACT & BOOKING INQUIRY -->
+        <section id="page-contact" class="page-view">
+            <div class="py-20 bg-safari-sand">
+                <div class="max-w-7xl mx-auto px-6">
+                    <div class="grid lg:grid-cols-12 gap-12">
+                        <!-- Left Info -->
+                        <div class="lg:col-span-5 space-y-8">
+                            <div class="space-y-4">
+                                <span class="text-safari-amber font-extrabold text-xs uppercase tracking-widest">Plan Your Journey</span>
+                                <h2 class="text-3xl font-serif font-bold text-safari-forest">Get In Touch</h2>
+                                <p class="text-safari-earth/70">Ready to plan your dream safari or game park expedition? Reach out directly to our team in Kampala.</p>
+                            </div>
+                            
+                            <div class="space-y-6">
+                                <div class="flex items-start gap-4">
+                                    <div class="w-11 h-11 rounded-xl bg-white shadow-sm flex items-center justify-center text-safari-amber border border-safari-sage shrink-0">
+                                        <i class="fa-solid fa-location-dot text-lg"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-safari-forest text-sm">Head Office & Operations</h4>
+                                        <p class="text-xs text-safari-earth/70 mt-0.5">Cymatic Hub Towers, Kampala, Uganda</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-4">
+                                    <div class="w-11 h-11 rounded-xl bg-white shadow-sm flex items-center justify-center text-safari-amber border border-safari-sage shrink-0">
+                                        <i class="fa-solid fa-user-gear text-lg"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-safari-forest text-sm">Founder & Architect</h4>
+                                        <p class="text-xs text-safari-earth/70 mt-0.5">Isabirye Latif (Latty Adams)</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-4">
+                                    <div class="w-11 h-11 rounded-xl bg-white shadow-sm flex items-center justify-center text-safari-amber border border-safari-sage shrink-0">
+                                        <i class="fa-solid fa-globe text-lg"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-safari-forest text-sm">Official Portal</h4>
+                                        <p class="text-xs text-safari-earth/70 mt-0.5">https://cymatichub.xyz/template/template7</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="p-6 rounded-2xl bg-safari-sage/50 border border-safari-sage text-xs text-safari-forest">
+                                <p class="font-bold mb-1"><i class="fa-solid fa-circle-info text-safari-amber mr-1"></i> Template Notice</p>
+                                <p class="text-safari-earth/80">This interactive template is pre-configured for demonstration and pitch presentations.</p>
+                            </div>
+                        </div>
+
+                        <!-- Inquiry Form -->
+                        <div class="lg:col-span-7 bg-white rounded-3xl p-8 border border-safari-sage shadow-md">
+                            <h3 class="text-2xl font-serif font-bold text-safari-forest mb-6">Safari Inquiry Form</h3>
+                            <form id="inquiry-form" class="space-y-6" onsubmit="handleFormSubmit(event)">
+                                <div class="grid md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label class="block text-xs font-bold uppercase tracking-wider text-safari-forest mb-2">First Name</label>
+                                        <input type="text" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-safari-amber focus:ring-1 focus:ring-safari-amber text-sm">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-bold uppercase tracking-wider text-safari-forest mb-2">Last Name</label>
+                                        <input type="text" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-safari-amber focus:ring-1 focus:ring-safari-amber text-sm">
+                                    </div>
+                                </div>
+                                <div class="grid md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label class="block text-xs font-bold uppercase tracking-wider text-safari-forest mb-2">Email Address</label>
+                                        <input type="email" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-safari-amber focus:ring-1 focus:ring-safari-amber text-sm">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-bold uppercase tracking-wider text-safari-forest mb-2">Preferred Safari Package</label>
+                                        <select class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-safari-amber focus:ring-1 focus:ring-safari-amber text-sm bg-white">
+                                            <option>Bwindi Gorilla Expedition</option>
+                                            <option>Murchison Falls Explorer</option>
+                                            <option>Queen Elizabeth & Ishasha</option>
+                                            <option>Custom Multi-Park Itinerary</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold uppercase tracking-wider text-safari-forest mb-2">Expedition Details / Special Requirements</label>
+                                    <textarea rows="4" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-safari-amber focus:ring-1 focus:ring-safari-amber text-sm" placeholder="Tell us your travel dates, group size, or desired destinations..."></textarea>
+                                </div>
+                                <button type="submit" class="w-full py-4 bg-safari-forest hover:bg-safari-deep text-white font-bold rounded-xl transition-all shadow-md flex items-center justify-center gap-2 text-sm">
+                                    <i class="fa-solid fa-paper-plane text-safari-gold"></i> Submit Inquiry Request
+                                </button>
+                            </form>
+                            
+                            <!-- Success Feedback Element (Pure DOM state toggle, no alert) -->
+                            <div id="success-message" class="hidden mt-6 p-4 bg-emerald-50 text-emerald-900 rounded-xl border border-emerald-200 flex items-center gap-3">
+                                <i class="fa-solid fa-circle-check text-xl text-emerald-600"></i>
+                                <span class="text-xs font-semibold">Thank you! Your safari inquiry has been recorded. Isabirye Latif's team will contact you shortly.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Signature Footer -->
+    <footer class="bg-safari-forest text-white py-12 border-t border-safari-amber/20">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-4 gap-8">
+            <div class="space-y-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-lg bg-safari-amber flex items-center justify-center text-safari-bark font-serif font-extrabold text-lg">IL</div>
+                    <span class="font-serif font-bold tracking-wider text-white">IL NATURE TOURS</span>
+                </div>
+                <p class="text-xs text-gray-300 leading-relaxed">
+                    Custom East African game park safaris and wildlife expeditions crafted with architectural perfection.
+                </p>
+            </div>
+            <div>
+                <h4 class="text-xs font-bold text-safari-gold uppercase tracking-widest mb-4">Quick Navigation</h4>
+                <ul class="space-y-2 text-xs text-gray-300">
+                    <li><button onclick="navigateTo('home')" class="hover:text-safari-gold transition-colors">Home Page</button></li>
+                    <li><button onclick="navigateTo('safaris')" class="hover:text-safari-gold transition-colors">Safari Packages</button></li>
+                    <li><button onclick="navigateTo('expeditions')" class="hover:text-safari-gold transition-colors">Game Parks</button></li>
+                    <li><button onclick="navigateTo('origin')" class="hover:text-safari-gold transition-colors">Founder Story</button></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-xs font-bold text-safari-gold uppercase tracking-widest mb-4">Destinations</h4>
+                <ul class="space-y-2 text-xs text-gray-300">
+                    <li>Bwindi Impenetrable Park</li>
+                    <li>Murchison Falls National Park</li>
+                    <li>Queen Elizabeth Savannah</li>
+                    <li>Kidepo Valley Wilderness</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-xs font-bold text-safari-gold uppercase tracking-widest mb-4">Connect & Ecosystem</h4>
+                <div class="flex gap-4 mb-4">
+                    <a href="https://cymatichub.xyz" target="_blank" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-safari-amber hover:text-safari-bark flex items-center justify-center transition-colors text-xs" aria-label="Website"><i class="fa-solid fa-globe"></i></a>
+                    <a href="#" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-safari-amber hover:text-safari-bark flex items-center justify-center transition-colors text-xs" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+                    <a href="#" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-safari-amber hover:text-safari-bark flex items-center justify-center transition-colors text-xs" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+                </div>
+                <p class="text-[11px] text-gray-400">Template 7 Showcase</p>
+            </div>
+        </div>
+        
+        <!-- Personal Signature Branding Banner -->
+        <div class="max-w-7xl mx-auto px-6 mt-12 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-400">
+            <div>
+                &copy; 2026 <strong>IL Nature & Game Park Tours</strong>. All rights reserved.
+            </div>
+            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-[11px] text-safari-gold">
+                <span>Designed & Built by <strong>Isabirye Latif</strong></span>
+                <span class="text-gray-500">|</span>
+                <span>Solo Architect</span>
+                <span class="text-gray-500">|</span>
+                <span>Cymatic Hub</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Template Router Integration & Fallback -->
+    <script>
+        window.templateId = 'template7';
+    </script>
+    <script src="../shared/template-router.js"></script>
+    <script>
+        // Fallback Navigation Router in case shared script is missing
+        function navigateTo(pageId) {
+            const views = document.querySelectorAll('.page-view');
+            views.forEach(view => {
+                view.classList.remove('active');
+            });
+
+            const target = document.getElementById('page-' + pageId);
+            if (target) {
+                target.classList.add('active');
+            }
+
+            // Update active state on nav links
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.classList.remove('text-safari-amber');
+            });
+            const activeNav = document.getElementById('nav-' + pageId);
+            if (activeNav) {
+                activeNav.classList.add('text-safari-amber');
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Mobile menu toggle logic
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('menu-icon');
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-xmark');
+            } else {
+                menu.classList.add('hidden');
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+            }
+        }
+
+        // Handle inquiry form submit with DOM feedback
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const form = document.getElementById('inquiry-form');
+            const successMsg = document.getElementById('success-message');
+            
+            form.reset();
+            successMsg.classList.remove('hidden');
+            
+            setTimeout(() => {
+                successMsg.classList.add('hidden');
+            }, 6000);
+        }
+
+        // Initialize state on load
+        window.onload = function() {
+            navigateTo('home');
+        };
+    </script>
+</body>
+</html>
