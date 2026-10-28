@@ -29,6 +29,18 @@ function getDb() {
 
 const app = new Hono();
 
+// Global middleware to redirect any malformed URLs where query parameters lack a '?' delimiter
+app.use('*', async (c, next) => {
+  const url = new URL(c.req.url);
+  if (url.pathname.includes('ref=') && !url.search.includes('ref=')) {
+    const parts = url.pathname.split('ref=');
+    const cleanPath = parts[0].replace(/[?&]/g, '');
+    const refVal = parts[1];
+    return c.redirect(`${cleanPath}?ref=${refVal}${url.search ? '&' + url.search.substring(1) : ''}`, 301);
+  }
+  return next();
+});
+
 // Sitemap route
 app.get('/sitemap.xml', (c) => {
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
