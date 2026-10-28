@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PopularityDashboard } from '../components/PopularityDashboard';
 import { CymaticLayout } from '../components/CymaticLayout';
-import { Monitor, Smartphone, Tablet, ExternalLink, X, LayoutGrid, Filter, Search, Copy, Heart } from 'lucide-react';
+import { Monitor, Smartphone, Tablet, ExternalLink, X, LayoutGrid, Filter, Search, Copy, Heart, Share2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import templatesData from '../data/templates.json';
 import { AdSenseBanner } from '../components/AdSenseBanner';
+import { TemplateShareModal } from '../components/TemplateShareModal';
 
 import { useAppContext } from '../hooks/useAppContext';
 
@@ -58,9 +59,10 @@ const getDeviceStyles = (currentDevice: DeviceType) => {
 interface SimulatorModalProps {
   activeTemplateId: string | null;
   setActiveTemplateId: (id: string | null) => void;
+  onShare: (template: TemplateDef) => void;
 }
 
-const SimulatorModal: React.FC<SimulatorModalProps> = ({ activeTemplateId, setActiveTemplateId }) => {
+const SimulatorModal: React.FC<SimulatorModalProps> = ({ activeTemplateId, setActiveTemplateId, onShare }) => {
   const { logPageView } = useAppContext();
   const [currentDevice, setCurrentDevice] = useState<DeviceType>(getSystemDeviceKind);
   const [isManualOverride, setIsManualOverride] = useState(false);
@@ -156,6 +158,13 @@ const SimulatorModal: React.FC<SimulatorModalProps> = ({ activeTemplateId, setAc
                 Auto
               </button>
             )}
+            <button
+              onClick={() => onShare(activeTemplate)}
+              className="w-9 h-9 ml-2 rounded-lg bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-blue-400 hover:bg-blue-600 hover:text-white transition-all"
+              title="Share Branded Link"
+            >
+              <Share2 className="w-4 h-4" />
+            </button>
             <a
               href={activeTemplate.path}
               target="_blank"
@@ -242,6 +251,7 @@ export const Showcase: React.FC = () => {
   }, [logPageView]);
 
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [sharingTemplate, setSharingTemplate] = useState<TemplateDef | null>(null);
 
   const toggleFavorite = (id: string) => {
     const newFavorites = favorites.includes(id) 
@@ -384,6 +394,18 @@ export const Showcase: React.FC = () => {
                      </div>
                   </div>
                   
+                  {/* Persistent Touch/Mobile Share Badge */}
+                  <div className="absolute top-3 right-3 z-25">
+                    <button
+                      onClick={(e) => { e.stopPropagation(); setSharingTemplate(template); }}
+                      className="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl backdrop-blur-md shadow-xl flex items-center gap-1.5 text-xs font-mono font-bold transition-all"
+                      title="Share Template"
+                    >
+                      <Share2 className="w-3.5 h-3.5" />
+                      <span className="text-[10px] uppercase">Share</span>
+                    </button>
+                  </div>
+                  
                   {/* Actions Overlay */}
                   <div className="absolute inset-0 bg-blue-900/40 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center z-10 gap-3">
                       <button 
@@ -392,6 +414,13 @@ export const Showcase: React.FC = () => {
                         title="Favorite"
                       >
                          <Heart className="w-5 h-5" />
+                      </button>
+                      <button 
+                        onClick={() => setSharingTemplate(template)}
+                        className="p-3 bg-blue-600 text-white rounded-xl hover:bg-blue-500 transition-all shadow-lg"
+                        title="Share Branded Link"
+                      >
+                         <Share2 className="w-5 h-5" />
                       </button>
                       <button 
                         onClick={() => copyLink(template.id)}
@@ -512,13 +541,20 @@ export const Showcase: React.FC = () => {
                   </div>
                   
                   {/* Footer Action */}
-                  <div className="mt-auto pt-4 flex justify-between items-center">
+                  <div className="mt-auto pt-4 flex justify-between items-center gap-2">
                     <button 
                         onClick={() => navigate(`/${template.id}`)}
-                        className="px-6 py-3 bg-blue-600 text-white font-sans font-bold text-sm rounded-xl shadow-xl shadow-blue-900/50 hover:bg-blue-500 hover:scale-105 transition-all flex items-center gap-2"
+                        className="px-5 py-3 bg-blue-600 text-white font-sans font-bold text-xs rounded-xl shadow-xl shadow-blue-900/50 hover:bg-blue-500 transition-all flex items-center gap-2"
                       >
                         <ExternalLink className="w-4 h-4" />
-                        Open Full-Screen Page
+                        Open Full-Screen
+                    </button>
+                    <button
+                        onClick={() => setSharingTemplate(template)}
+                        className="px-4 py-3 bg-[#171E30] hover:bg-[#202A45] text-blue-400 border border-blue-500/30 font-sans font-bold text-xs rounded-xl transition-all flex items-center gap-1.5 shadow"
+                        title="Share Template"
+                    >
+                        <Share2 className="w-4 h-4" /> Share
                     </button>
                   </div>
                 </div>
@@ -536,9 +572,19 @@ export const Showcase: React.FC = () => {
 
       <AnimatePresence>
         {activeTemplateId && (
-          <SimulatorModal activeTemplateId={activeTemplateId} setActiveTemplateId={setActiveTemplateId} />
+          <SimulatorModal 
+            activeTemplateId={activeTemplateId} 
+            setActiveTemplateId={setActiveTemplateId} 
+            onShare={setSharingTemplate} 
+          />
         )}
       </AnimatePresence>
+
+      <TemplateShareModal
+        isOpen={!!sharingTemplate}
+        onClose={() => setSharingTemplate(null)}
+        template={sharingTemplate}
+      />
     </CymaticLayout>
   );
 };

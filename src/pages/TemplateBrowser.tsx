@@ -3,13 +3,14 @@ import { collection, addDoc } from 'firebase/firestore';
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { CymaticLayout } from '../components/CymaticLayout';
-import { Monitor, Smartphone, Tablet, ExternalLink, ChevronLeft, Copy, ShieldCheck, RotateCcw, Maximize2, LayoutGrid, Star } from 'lucide-react';
+import { Monitor, Smartphone, Tablet, ExternalLink, ChevronLeft, Copy, ShieldCheck, RotateCcw, Maximize2, LayoutGrid, Star, Share2 } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
 import templatesData from '../data/templates.json';
 import { useAppContext } from '../hooks/useAppContext';
 import { AdSenseBanner } from '../components/AdSenseBanner';
 import { AetherAcademyTemplate } from '../components/templates/AetherAcademyTemplate';
 import { ApexVentureTemplate } from '../components/templates/ApexVentureTemplate';
+import { TemplateShareModal } from '../components/TemplateShareModal';
 
 type DeviceType = 'desktop' | 'tablet' | 'mobile';
 
@@ -50,6 +51,7 @@ export const TemplateBrowser: React.FC = () => {
   const [isManualOverride, setIsManualOverride] = useState(false);
   const [, setIsLoading] = useState(true);
   const [copied, setCopied] = useState(false);
+  const [isShareOpen, setIsShareOpen] = useState(false);
   const [, setKey] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
   
@@ -233,9 +235,17 @@ export const TemplateBrowser: React.FC = () => {
             </button>
 
             <button
+              onClick={() => setIsShareOpen(true)}
+              className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all relative"
+              title="Share Branded Link"
+            >
+              <Share2 className="w-3.5 h-3.5 text-blue-400" />
+            </button>
+
+            <button
               onClick={copyLink}
               className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all relative"
-              title="Copy Share Link"
+              title="Copy Raw Share Link"
             >
               <Copy className="w-3.5 h-3.5" />
               {copied && <span className="absolute -top-7 bg-white text-slate-900 text-[9px] font-bold px-2 py-0.5 rounded shadow">Copied!</span>}
@@ -388,6 +398,33 @@ export const TemplateBrowser: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Mobile Sticky Share & Action Bar */}
+      <div className="md:hidden fixed bottom-4 left-4 right-4 z-[180] bg-[#111625]/95 backdrop-blur-md border border-blue-500/30 rounded-2xl p-3 flex items-center justify-between shadow-2xl">
+        <div className="flex items-center gap-2 overflow-hidden">
+          <div className="w-8 h-8 rounded-lg bg-blue-600/20 flex items-center justify-center text-blue-400 font-bold text-xs shrink-0">
+            {activeTemplate.title.slice(0, 2).toUpperCase()}
+          </div>
+          <div className="truncate">
+            <span className="text-white font-bold text-xs block truncate">{activeTemplate.title}</span>
+            <span className="text-[10px] text-emerald-400 font-mono">Mobile Handoff Ready</span>
+          </div>
+        </div>
+        <div className="flex items-center gap-2 shrink-0">
+          <button
+            onClick={() => setIsShareOpen(true)}
+            className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 shadow-lg shadow-blue-600/30"
+          >
+            <Share2 className="w-3.5 h-3.5" /> Share
+          </button>
+        </div>
+      </div>
+
+      <TemplateShareModal
+        isOpen={isShareOpen}
+        onClose={() => setIsShareOpen(false)}
+        template={activeTemplate}
+      />
     </CymaticLayout>
   );
 };
