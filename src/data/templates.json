@@ -70,5 +70,59 @@
       "accessibility": 100,
       "seo": 98
     }
+  },
+  {
+    "id": "template5",
+    "title": "IL Nature & Game Park",
+    "category": "Tourism",
+    "purpose": "An immersive wildlife safari and game park tours expedition portal.",
+    "description": "Designed for premier eco-tourism lodges, game reserve expeditions, and wildlife conservation safaris with booking and itinerary management.",
+    "path": "/showcase/template5/index.html",
+    "image": "/showcase/template5/thumbnail.jpg",
+    "phase": "Deployed",
+    "industry": "Eco-Tourism & Wildlife",
+    "techStack": "HTML5, Tailwind CSS, JavaScript",
+    "useCase": "Safari & Game Park Booking",
+    "metrics": {
+      "performance": 100,
+      "accessibility": 99,
+      "seo": 100
+    }
+  },
+  {
+    "id": "template6",
+    "title": "NeuroSync AI",
+    "category": "Artificial Intelligence",
+    "purpose": "An autonomous intelligence and neural pulse processing platform.",
+    "description": "Enterprise neural networks, autonomous agents, and real-time resonance processing architected by Isabirye Latif.",
+    "path": "/showcase/template6/index.html",
+    "image": "/showcase/template6/thumbnail.jpg",
+    "phase": "Deployed",
+    "industry": "AI & Autonomous Systems",
+    "techStack": "HTML5, Tailwind CSS, JavaScript",
+    "useCase": "AI Agent & Neural Cluster Portal",
+    "metrics": {
+      "performance": 100,
+      "accessibility": 100,
+      "seo": 100
+    }
+  },
+  {
+    "id": "template7",
+    "title": "IL Game park and Nature Tours | Cymatic Hub Ecosystem for template7",
+    "category": "Tourism",
+    "purpose": "An immersive wildlife safari and game park tours expedition portal.",
+    "description": "Designed for premier eco-tourism lodges, game reserve expeditions, and wildlife conservation safaris with booking and itinerary management.",
+    "path": "/showcase/template7/index.html",
+    "image": "/showcase/template7/thumbnail.jpg",
+    "phase": "Deployed",
+    "industry": "Eco-Tourism & Wildlife",
+    "techStack": "HTML5, Tailwind CSS, JavaScript",
+    "useCase": "Safari & Game Park Booking",
+    "metrics": {
+      "performance": 100,
+      "accessibility": 99,
+      "seo": 100
+    }
   }
 ]

@@ -10,6 +10,7 @@ import { useAppContext } from '../hooks/useAppContext';
 import { AdSenseBanner } from '../components/AdSenseBanner';
 import { AetherAcademyTemplate } from '../components/templates/AetherAcademyTemplate';
 import { ApexVentureTemplate } from '../components/templates/ApexVentureTemplate';
+import { ILNatureTemplate } from '../components/templates/ILNatureTemplate';
 import { TemplateShareModal } from '../components/TemplateShareModal';
 
 type DeviceType = 'desktop' | 'tablet' | 'mobile';
@@ -269,6 +270,8 @@ export const TemplateBrowser: React.FC = () => {
             <AetherAcademyTemplate />
           ) : activeTemplate.id === 'template2' ? (
             <ApexVentureTemplate />
+          ) : activeTemplate.id === 'template7' ? (
+            <ILNatureTemplate />
           ) : (
             <div className="min-h-[80vh] flex flex-col items-center justify-center p-12 bg-slate-900 text-white space-y-6">
               <h2 className="text-4xl font-black uppercase tracking-tight">{activeTemplate.title}</h2>

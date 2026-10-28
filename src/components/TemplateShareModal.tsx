@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, Copy, Check, Share2, Globe, QrCode, Sparkles, Send, MessageCircle, Mail } from 'lucide-react';
+import { X, Copy, Check, Share2, Globe, QrCode, Sparkles, Send, MessageCircle, Mail, HardDrive, Download } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
 
 interface TemplateShareModalProps {
@@ -18,6 +18,7 @@ interface TemplateShareModalProps {
 export const TemplateShareModal: React.FC<TemplateShareModalProps> = ({ isOpen, onClose, template }) => {
   const [copied, setCopied] = useState(false);
   const [showQR, setShowQR] = useState(false);
+  const [savedToStorage, setSavedToStorage] = useState(false);
 
   if (!template) return null;
 
@@ -30,6 +31,49 @@ export const TemplateShareModal: React.FC<TemplateShareModalProps> = ({ isOpen, 
     navigator.clipboard.writeText(shareUrl);
     setCopied(true);
     setTimeout(() => setCopied(false), 2500);
+  };
+
+  const handleSaveToDeviceStorage = () => {
+    try {
+      const existingKey = 'cymatic_device_saved_shares';
+      const stored = localStorage.getItem(existingKey);
+      const shares = stored ? JSON.parse(stored) : [];
+      
+      const record = {
+        id: template.id,
+        title: template.title,
+        category: template.category,
+        shareUrl,
+        savedAt: new Date().toISOString(),
+        architect: 'Isabirye Latif'
+      };
+
+      // Avoid duplicates
+      const filtered = shares.filter((s: { id: string }) => s.id !== template.id);
+      localStorage.setItem(existingKey, JSON.stringify([record, ...filtered]));
+
+      setSavedToStorage(true);
+      setTimeout(() => setSavedToStorage(false), 3000);
+    } catch (e) {
+      console.error('Failed to save to device storage:', e);
+    }
+  };
+
+  const handleExportJson = () => {
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({
+      template,
+      shareUrl,
+      architect: 'Isabirye Latif',
+      ecosystem: 'Cymatic Evolution',
+      exportedAt: new Date().toISOString()
+    }, null, 2));
+    
+    const downloadAnchor = document.createElement('a');
+    downloadAnchor.setAttribute("href", dataStr);
+    downloadAnchor.setAttribute("download", `${template.id}-blueprint-latif.json`);
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+    downloadAnchor.remove();
   };
 
   const handleNativeShare = async () => {
@@ -105,7 +149,7 @@ export const TemplateShareModal: React.FC<TemplateShareModalProps> = ({ isOpen, 
                 </div>
                 <div>
                   <h3 className="text-white font-bold text-xs uppercase tracking-wider flex items-center gap-1.5">
-                    Share Blueprint <Sparkles className="w-3 h-3 text-amber-400" />
+                    Share & Device Storage <Sparkles className="w-3 h-3 text-amber-400" />
                   </h3>
                   <span className="text-[10px] text-slate-400 font-mono">Isabirye Latif Branded Distribution</span>
                 </div>
@@ -127,6 +171,24 @@ export const TemplateShareModal: React.FC<TemplateShareModalProps> = ({ isOpen, 
                   <p className="text-slate-400 text-xs truncate">{template.description}</p>
                   <span className="inline-block text-[9px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded mt-1 uppercase">{template.category}</span>
                 </div>
+              </div>
+
+              {/* Device Storage Persistence Actions */}
+              <div className="grid grid-cols-2 gap-3">
+                <button
+                  onClick={handleSaveToDeviceStorage}
+                  className="py-3 px-4 bg-[#111625] hover:bg-[#1A2238] border border-blue-500/30 rounded-2xl text-slate-200 hover:text-white text-xs font-mono font-bold transition-all flex items-center justify-center gap-2 shadow"
+                >
+                  <HardDrive className="w-4 h-4 text-blue-400" />
+                  {savedToStorage ? 'Saved to Device!' : 'Save to Device Storage'}
+                </button>
+                <button
+                  onClick={handleExportJson}
+                  className="py-3 px-4 bg-[#111625] hover:bg-[#1A2238] border border-purple-500/30 rounded-2xl text-slate-200 hover:text-white text-xs font-mono font-bold transition-all flex items-center justify-center gap-2 shadow"
+                >
+                  <Download className="w-4 h-4 text-purple-400" />
+                  Export Blueprint JSON
+                </button>
               </div>
 
               {/* Branded Link Box */}

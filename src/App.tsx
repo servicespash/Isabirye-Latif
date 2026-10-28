@@ -180,7 +180,7 @@ const getDynamicMetadata = (pathname: string): SEOMetadata => {
   }
 
   // Handle dynamic showcase templates (e.g. /showcase/template1 or /template/template1)
-  const templateMatch = pathname.match(/^\/(showcase|template)\/(template[1-4])$/);
+  const templateMatch = pathname.match(/^\/(showcase|template)\/(template[1-5])$/);
   if (templateMatch) {
     const templateId = templateMatch[2];
     if (templateId === 'template1') {
@@ -207,6 +207,24 @@ const getDynamicMetadata = (pathname: string): SEOMetadata => {
         description: 'Transparency-first non-profit donation portal template optimized to inspire donations and detail direct field projects.',
         image: 'https://cymatichub.xyz/media/photo4.png'
       };
+    } else if (templateId === 'template5') {
+      return {
+        title: 'IL Nature & Game Park Tours | Wild Expeditions & Eco-Safaris',
+        description: 'Premier eco-tourism lodges, game reserve expeditions, and wildlife conservation safaris with booking and itinerary management.',
+        image: 'https://cymatichub.xyz/media/photo3.png'
+      };
+    } else if (templateId === 'template6') {
+      return {
+        title: 'NeuroSync AI | Autonomous Intelligence & Neural Pulse Systems',
+        description: 'Enterprise neural networks, autonomous agents, and real-time resonance processing architected by Isabirye Latif.',
+        image: 'https://cymatichub.xyz/media/photo1.png'
+      };
+    } else if (templateId === 'template7') {
+      return {
+        title: 'IL Game park and Nature Tours | Cymatic Hub Ecosystem for template7',
+        description: 'Premier eco-tourism lodges, game reserve expeditions, and wildlife conservation safaris with booking and itinerary management.',
+        image: 'https://cymatichub.xyz/media/photo3.png'
+      };
     }
   }
 
@@ -214,7 +232,19 @@ const getDynamicMetadata = (pathname: string): SEOMetadata => {
 };
 
 const TemplateBrowserWrapper = () => {
-  const { templateId } = useParams();
+  const { templateId: rawTemplateId } = useParams();
+  const navigate = useNavigate();
+  
+  const templateId = rawTemplateId ? rawTemplateId.split('ref=')[0].replace(/[?&]/g, '') : '';
+
+  useEffect(() => {
+    if (rawTemplateId && rawTemplateId.includes('ref=')) {
+      const cleanId = rawTemplateId.split('ref=')[0].replace(/[?&]/g, '');
+      const refVal = rawTemplateId.split('ref=')[1];
+      navigate(`/template/${cleanId}?ref=${refVal}`, { replace: true });
+    }
+  }, [rawTemplateId, navigate]);
+
   return <TemplateBrowser key={templateId} />;
 };
 
@@ -258,6 +288,9 @@ const AnimatedRoutes = () => {
         <Route path="/template2" element={<TemplatePageView />} />
         <Route path="/template3" element={<TemplatePageView />} />
         <Route path="/template4" element={<TemplatePageView />} />
+        <Route path="/template5" element={<TemplatePageView />} />
+        <Route path="/template6" element={<TemplatePageView />} />
+        <Route path="/template7" element={<TemplatePageView />} />
         <Route path="/resonance" element={<motion.div variants={pageVariants} initial="initial" animate="animate" exit="exit"><Resonance /></motion.div>} />
         <Route path="/creative" element={<motion.div variants={pageVariants} initial="initial" animate="animate" exit="exit"><Creative /></motion.div>} />
         <Route path="/creatives" element={<motion.div variants={pageVariants} initial="initial" animate="animate" exit="exit"><Creatives /></motion.div>} />
