@@ -7,5 +7,4 @@ Allow: /
 Disallow: /api/
 Disallow: /admin/
 Disallow: /settings/
-Disallow: /legal/
 Sitemap: https://cymatichub.xyz/sitemap.xml
