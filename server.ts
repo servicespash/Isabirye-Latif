@@ -43,65 +43,67 @@ app.use('*', async (c, next) => {
 
 // Sitemap route
 app.get('/sitemap.xml', (c) => {
+  const url = new URL(c.req.url);
+  const baseUrl = url.origin;
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <!-- Core Views -->
   <url>
-    <loc>https://cymatichub.xyz/</loc>
+    <loc>${baseUrl}/</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://cymatichub.xyz/manifesto</loc>
+    <loc>${baseUrl}/manifesto</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://cymatichub.xyz/projects</loc>
+    <loc>${baseUrl}/projects</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://cymatichub.xyz/showcase</loc>
+    <loc>${baseUrl}/showcase</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://cymatichub.xyz/resonance</loc>
+    <loc>${baseUrl}/resonance</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://cymatichub.xyz/study</loc>
+    <loc>${baseUrl}/study</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://cymatichub.xyz/creative</loc>
+    <loc>${baseUrl}/creative</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://cymatichub.xyz/creatives</loc>
+    <loc>${baseUrl}/creatives</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://cymatichub.xyz/learning</loc>
+    <loc>${baseUrl}/learning</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://cymatichub.xyz/socials</loc>
+    <loc>${baseUrl}/socials</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -109,25 +111,25 @@ app.get('/sitemap.xml', (c) => {
 
   <!-- Static Supplementary Pages -->
   <url>
-    <loc>https://cymatichub.xyz/for-schools</loc>
+    <loc>${baseUrl}/for-schools</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://cymatichub.xyz/for-teams</loc>
+    <loc>${baseUrl}/for-teams</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://cymatichub.xyz/how-it-works</loc>
+    <loc>${baseUrl}/how-it-works</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://cymatichub.xyz/twin-engines</loc>
+    <loc>${baseUrl}/twin-engines</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
@@ -135,25 +137,25 @@ app.get('/sitemap.xml', (c) => {
 
   <!-- Template Deep Links (Showcase) -->
   <url>
-    <loc>https://cymatichub.xyz/showcase/template1</loc>
+    <loc>${baseUrl}/showcase/template1</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://cymatichub.xyz/showcase/template2</loc>
+    <loc>${baseUrl}/showcase/template2</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://cymatichub.xyz/showcase/template3</loc>
+    <loc>${baseUrl}/showcase/template3</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://cymatichub.xyz/showcase/template4</loc>
+    <loc>${baseUrl}/showcase/template4</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -161,25 +163,25 @@ app.get('/sitemap.xml', (c) => {
 
   <!-- Template Deep Links (Direct Browser) -->
   <url>
-    <loc>https://cymatichub.xyz/template/template1</loc>
+    <loc>${baseUrl}/template/template1</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://cymatichub.xyz/template/template2</loc>
+    <loc>${baseUrl}/template/template2</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://cymatichub.xyz/template/template3</loc>
+    <loc>${baseUrl}/template/template3</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://cymatichub.xyz/template/template4</loc>
+    <loc>${baseUrl}/template/template4</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -187,25 +189,26 @@ app.get('/sitemap.xml', (c) => {
 
   <!-- Operational & Legal Documents -->
   <url>
-    <loc>https://cymatichub.xyz/legal</loc>
+    <loc>${baseUrl}/legal</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://cymatichub.xyz/transparency</loc>
+    <loc>${baseUrl}/transparency</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://cymatichub.xyz/stack</loc>
+    <loc>${baseUrl}/stack</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
 </urlset>`;
-  c.header('Content-Type', 'application/xml');
+  c.header('Content-Type', 'application/xml; charset=UTF-8');
+  c.header('Cache-Control', 'public, max-age=86400, s-maxage=86400');
   return c.body(sitemap);
 });
 

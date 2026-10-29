@@ -1,6 +1,6 @@
 name = "isabirye-latif"
 main = "workers-site/index.js"
-routes = ["cymatichub.xyz/*"]
+routes = ["cymatichub.xyz/*", "www.cymatichub.xyz/*"]
 compatibility_date = "2024-09-23"
 compatibility_flags = ["nodejs_compat"]
 
