@@ -24669,6 +24669,24 @@ app.use("*", async (c2, next) => {
   }
   return next();
 });
+app.get("/robots.txt", (c2) => {
+  const url = new URL(c2.req.url);
+  const baseUrl = url.origin;
+  const robotsTxt = `User-agent: Googlebot
+User-agent: Bingbot
+User-agent: GPTBot
+User-agent: Claude-Web
+User-agent: Google-Extended
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /settings/
+Sitemap: ${baseUrl}/sitemap.xml
+`;
+  c2.header("Content-Type", "text/plain; charset=UTF-8");
+  c2.header("Cache-Control", "public, max-age=86400, s-maxage=86400");
+  return c2.text(robotsTxt);
+});
 app.get("/sitemap.xml", (c2) => {
   const url = new URL(c2.req.url);
   const baseUrl = url.origin;
@@ -24919,7 +24937,7 @@ if (typeof process !== "undefined" && false) {
     const requestListener = getRequestListener(app.fetch);
     const server = http.createServer((req, res) => {
       const url = req.url || "";
-      if (url.startsWith("/api/") || url === "/sitemap.xml") {
+      if (url.startsWith("/api/") || url === "/sitemap.xml" || url === "/robots.txt") {
         return requestListener(req, res);
       }
       vite.middlewares(req, res, () => {
