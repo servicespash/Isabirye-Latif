@@ -378,6 +378,20 @@ app.notFound(async (c) => {
   if (c.req.path.startsWith('/api/')) {
     return c.json({ error: 'Not Found', path: c.req.path }, 404);
   }
+
+  const path = c.req.path;
+  if (path.endsWith('.xml') || path.includes('sitemap')) {
+    return new Response('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>', {
+      status: 404,
+      headers: { 'Content-Type': 'application/xml; charset=utf-8' }
+    });
+  }
+  if (path === '/robots.txt') {
+    return new Response('User-agent: *\nDisallow: /', {
+      status: 404,
+      headers: { 'Content-Type': 'text/plain; charset=utf-8' }
+    });
+  }
   
   const env = c.env as { ASSETS?: { fetch: typeof fetch } };
   if (env?.ASSETS) {
