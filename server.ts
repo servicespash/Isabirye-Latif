@@ -61,7 +61,7 @@ Sitemap: ${baseUrl}/sitemap.xml
   return c.text(robotsTxt);
 });
 
-// Sitemap route
+// Sitemap routes with explicit Response and application/xml; charset=utf-8 Content-Type
 app.get('/sitemap.xml', (c) => {
   const url = new URL(c.req.url);
   const baseUrl = url.origin;
@@ -227,9 +227,91 @@ app.get('/sitemap.xml', (c) => {
     <priority>0.3</priority>
   </url>
 </urlset>`;
-  c.header('Content-Type', 'application/xml; charset=UTF-8');
-  c.header('Cache-Control', 'public, max-age=86400, s-maxage=86400');
-  return c.body(sitemap);
+  return new Response(sitemap, {
+    headers: {
+      'Content-Type': 'application/xml; charset=utf-8',
+      'Cache-Control': 'public, max-age=86400, s-maxage=86400',
+    },
+  });
+});
+
+app.get('/sitemap_index.xml', (c) => {
+  const url = new URL(c.req.url);
+  const baseUrl = url.origin;
+  const sitemapIndex = `<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <sitemap>
+    <loc>${baseUrl}/sitemap-hub.xml</loc>
+  </sitemap>
+  <sitemap>
+    <loc>${baseUrl}/sitemap-resonance.xml</loc>
+  </sitemap>
+  <sitemap>
+    <loc>${baseUrl}/sitemap-downloads.xml</loc>
+  </sitemap>
+</sitemapindex>
+<!-- © 2026 ISABIRYE LATIF | CYMATIC EVOLUTION -->`;
+  return new Response(sitemapIndex, {
+    headers: {
+      'Content-Type': 'application/xml; charset=utf-8',
+      'Cache-Control': 'public, max-age=86400, s-maxage=86400',
+    },
+  });
+});
+
+app.get('/sitemap-hub.xml', (c) => {
+  const url = new URL(c.req.url);
+  const baseUrl = url.origin;
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>${baseUrl}/</loc></url>
+  <url><loc>${baseUrl}/hub/dashboard</loc></url>
+  <url><loc>${baseUrl}/hub/download/apk</loc></url>
+  <url><loc>${baseUrl}/manifesto</loc></url>
+</urlset>
+<!-- © 2026 ISABIRYE LATIF | CYMATIC EVOLUTION -->`;
+  return new Response(xml, {
+    headers: {
+      'Content-Type': 'application/xml; charset=utf-8',
+      'Cache-Control': 'public, max-age=86400, s-maxage=86400',
+    },
+  });
+});
+
+app.get('/sitemap-resonance.xml', (c) => {
+  const url = new URL(c.req.url);
+  const baseUrl = url.origin;
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>${baseUrl}/</loc></url>
+  <url><loc>${baseUrl}/resonance/dashboard</loc></url>
+  <url><loc>${baseUrl}/resonance/download/apk</loc></url>
+  <url><loc>${baseUrl}/manifesto</loc></url>
+</urlset>
+<!-- © 2026 ISABIRYE LATIF | CYMATIC EVOLUTION -->`;
+  return new Response(xml, {
+    headers: {
+      'Content-Type': 'application/xml; charset=utf-8',
+      'Cache-Control': 'public, max-age=86400, s-maxage=86400',
+    },
+  });
+});
+
+app.get('/sitemap-downloads.xml', (c) => {
+  const url = new URL(c.req.url);
+  const baseUrl = url.origin;
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>${baseUrl}/hub/download/apk</loc></url>
+  <url><loc>${baseUrl}/resonance/download/apk</loc></url>
+</urlset>
+<!-- © 2026 ISABIRYE LATIF | CYMATIC EVOLUTION -->`;
+  return new Response(xml, {
+    headers: {
+      'Content-Type': 'application/xml; charset=utf-8',
+      'Cache-Control': 'public, max-age=86400, s-maxage=86400',
+    },
+  });
 });
 
 // ads.txt route
@@ -330,7 +412,7 @@ if (typeof process !== 'undefined' && process.env?.NODE_ENV !== 'production') {
 
     const server = http.createServer((req, res) => {
       const url = req.url || '';
-      if (url.startsWith('/api/') || url === '/sitemap.xml' || url === '/robots.txt') {
+      if (url.startsWith('/api/') || url.includes('sitemap') || url === '/robots.txt') {
         return requestListener(req, res);
       }
       vite.middlewares(req, res, () => {
