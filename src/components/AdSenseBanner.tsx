@@ -28,6 +28,10 @@ export const AdSenseBanner: React.FC<AdSenseBannerProps> = ({
 
     const checkWidthAndPush = () => {
       if (pushedRef.current) return;
+      if (adRef.current && adRef.current.getAttribute('data-adsbygoogle-status')) {
+        pushedRef.current = true;
+        return;
+      }
       const width = containerRef.current?.offsetWidth || adRef.current?.offsetWidth || 0;
       if (width > 0) {
         try {
@@ -37,7 +41,10 @@ export const AdSenseBanner: React.FC<AdSenseBannerProps> = ({
             pushedRef.current = true;
           }
         } catch (err) {
-          console.warn('AdSense push error:', err);
+          // Suppress tag errors in preview environments
+          if (process.env.NODE_ENV === 'production') {
+            console.warn('AdSense push error:', err);
+          }
         }
       }
     };
@@ -58,10 +65,11 @@ export const AdSenseBanner: React.FC<AdSenseBannerProps> = ({
       observer.observe(containerRef.current);
     }
 
+    const currentContainer = containerRef.current;
     return () => {
       clearTimeout(timer);
-      if (observer && containerRef.current) {
-        observer.unobserve(containerRef.current);
+      if (observer && currentContainer) {
+        observer.unobserve(currentContainer);
       }
     };
   }, []);

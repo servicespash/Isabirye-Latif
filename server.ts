@@ -424,12 +424,29 @@ if (typeof process !== 'undefined' && process.env?.NODE_ENV !== 'production') {
     
     const requestListener = getRequestListener(app.fetch);
 
-    const server = http.createServer((req, res) => {
+    const server = http.createServer(async (req, res) => {
       const url = req.url || '';
-      if (url.startsWith('/api/') || url.includes('sitemap') || url === '/robots.txt') {
+      if (url.startsWith('/api/') || url.includes('sitemap') || url === '/robots.txt' || url === '/ads.txt') {
         return requestListener(req, res);
       }
-      vite.middlewares(req, res, () => {
+      vite.middlewares(req, res, async () => {
+        if (!res.writableEnded) {
+          try {
+            const fs = await import('fs');
+            const path = await import('path');
+            const indexPath = path.join(process.cwd(), 'index.html');
+            if (fs.existsSync(indexPath)) {
+              let html = fs.readFileSync(indexPath, 'utf-8');
+              html = await vite.transformIndexHtml(url, html);
+              res.setHeader('Content-Type', 'text/html');
+              res.writeHead(200);
+              res.end(html);
+              return;
+            }
+          } catch (e) {
+            console.error('Error serving SPA fallback index.html:', e);
+          }
+        }
         requestListener(req, res);
       });
     });
